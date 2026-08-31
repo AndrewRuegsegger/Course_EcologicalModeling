@@ -61,6 +61,7 @@ dat_grass <-
 ggplot(dat_grass,
        aes(x = factor(Year), y = Rich_Grass, group = factor(Year))) +
   geom_boxplot() +
+  scale_y_continuous(breaks = seq(0,12,1)) +
   ylab("Grassland Bird Richness") + 
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank())
@@ -160,20 +161,22 @@ ggplot(data = dat_grass,
 # 1. Check for pairwise correlations between predictor variables graphically
 # using the `pairs` function.
 
-pairs(dat_grass[, c("TSF", "mean", "stdDev")],
-      col = rainbow(9)[as.numeric(as.factor(dat_grass$Route))])
+pairs(dat_grass[, c("Year","mean", "TSF", "stdDev")],
+      col = rainbow(9)[as.numeric(as.factor(dat_grass$Route))],
+      lower.panel = NULL)
 
 # 2. Check for pairwise correlations between predictor variables statistically
 # using the `cor` function.
 
-cor(dat_grass[, 12:15])
+# mean and stdDev are correlated
+cor(dat_grass[, c("Year", "stdDev", "mean", "TSF")])
 
 # 3. Are there "linear" relationships between the response variable and
 # predictor variables? How can you use output from the `pairs` function to tell?
 
-pairs(dat_grass[, c("stdDev", "TSF", "mean", "Rich_Grass")],
-      panel = panel.smooth, cex = 1)
-
+pairs(dat_grass[, c("Rich_Grass", "TSF", "mean", "stdDev", "Year")],
+      panel = panel.smooth, cex = 1,
+      lower.panel = NULL)
 
 #=============================================================================
 ## Is there actually a relationship between X and Y?!
@@ -225,6 +228,9 @@ cowplot::plot_grid(rich_treeMean, rich_TSF, ncol = 2)
 # 1. Are there interactions between predictor variables that we should consider?
 # Recreate some ggplot2::facet_wrap plots to check.
 
+coplot(Rich_Grass ~ mean | as.factor(TSF), data = dat_grass)
+
+
 # interactions by route? 
 ggplot(dat_grass,
        aes(x = TSF, y = mean)) +
@@ -269,16 +275,21 @@ ggplot(dat_sf,
   geom_sf() +
   scale_color_viridis_d()
 
-?scale_fill_viridis
-?scale_fill_viridis_b
-
-
 ggplot(dat_sf,
        aes(color = Rich_Grass)) +
   geom_sf() +
   scale_color_viridis(discrete = FALSE) +
   facet_wrap(~ Year)
-  
+
+plot(dat_sf["Route"])  
+
+
+ggplot(dat_sf,
+       aes(size = mean, color = mean)) +
+  geom_sf() +
+  scale_color_viridis_c(option = "inferno") +
+  facet_wrap(~ Year) +
+  theme_bw()
 
 
 
