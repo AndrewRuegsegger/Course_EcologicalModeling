@@ -26,6 +26,10 @@ navbar:
           href: 02-A-linear-models-and-probability-distributions.html
         - text: "Homework 2"
           href: 02-B-Homework-02.html
+    - text: "Hello, Bayes!"
+      menu:
+        - text: "Lab: Hello, Bayes!"
+          href: 03-A-HelloBayes.html
     - text: "Model Selection"
       menu:
         - text: "Lab"
@@ -52,14 +56,7 @@ navbar:
           href: 06-A-Hierarchical-Generalized-Additive-Models.html
         - text: "Homework 4"
           href: 06-B-Homework-04.html
-    - text: "Hello, Bayes!"
-      menu:
-        - text: "Homeork 5"
-          href: 07-A-Homework-05.html
-        - text: "Lab: Hello, Bayes!"
-          href: 07-B-HelloBayes.html
-    #     - text: "Occupancy models"
-    #       href: 09-C-occupancy-models.html
+
 output_dir: "."
 exclude: ["CONTRIBUT*.md","index.md","README.md","*.db"]
 include: ["*.Rmd","LICENSE.md"]
