@@ -31,7 +31,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 Please provide a reproducible .Rmd script that answers all questions below and produces all of your analysis and plots. Some reminders:
 
 - **Reproducible:** This means when I run your .Rmd file, it will run all analyses and create all plots without errors, without me having to reset my working directory, and without forcing me to install anything on my machine (i.e., use the require(librarian); shelf(your packages, lib = tempdir()) approach as in the code block below). This also means there should be *NO ERRORS* when I run it!
-- **Format:** Answer each question with text and code, plus figures/tables where appropriate.
+- **Format:** Answer each question with text and code plus figures/tables where appropriate in an R script or RMarkdown file.
 
 ### Background
 
@@ -75,11 +75,14 @@ bleach <-
 2. Assess model assumptions (i.e., check model diagnostics) for both models.
     a. Linear regression: revisit the Linear models and probability distributions lab for information on how to do this.
     b. Generalized linear model: depending on your family/link choices, model diagnostics that assume normality may be useless. Instead, check out the mgcv::qq.gam function documentation and examples. Also, check out [Ben Bolker's logistic regression walkthrough](https://bbolker.github.io/stat4c03/notes/logistic.pdf), especially page 5.
-3. Summarize results from both models, as well as your model diagnostics. Be careful to differentiate the linear regression results from the generalized linear model results.
-4. The authors log transformed the bleaching variable “… to generate linear relationships with temperature.” In R, back transform LOGBLEACH to the original percentage scale, and plot against SST (No need to re-run the model). Does a log-transformation make ecological sense, given the type of process and the data?
+3. Summarize results from both models, as well as your model diagnostics (2 - 4 sentences for each model). Be careful to differentiate the linear regression results from the generalized linear model results.
+4. The authors log transformed the bleaching variable “to generate linear relationships with temperature.” Back transform LOGBLEACH to the original percentage scale. Now:
+    a. Create a scatterplot with SST on the x-axis and the back-transformed LOGBLEACH values on the y-axis. 
+    b. Create histograms of the back-transformed LOGBLEACH values, SST values, and LOGBLEACH values.
+    c. In words, tell me if a log-transformation make ecological sense, given the type of process and the data--and the plots you just created.
 5. At what range of values does the linear regression model (still using the LOGBLEACH response variable) predict 50% bleaching will occur? Provide an estimate of uncertainty for this prediction (Hint: use the predict.lm() function with options newdata and interval=”prediction”. See help(predict.lm) ). 
 6. Given the generalized linear model results, at what value of SST is there a >50% chance of a mass bleaching event occurring? Provide an estimate of uncertainty for this prediction. (Hint: check out the differences between ?predict.lm() and ?predict.glm(). I suggest setting 'type = link', 'se.fit = TRUE', and transforming the resultant predictions into probabilities using the plogis() function).
-7. Choose your favorite model and create a figure showing the relationship between the response and predictor. Include confidence intervals. There are multiple ways to create predicted effects plots (e.g., ggeffects R package, use the base R package 'predict' function). **But** be careful that the confidence intervals are correct (see hint in question #6)!
+7. Choose your favorite model and create a figure showing the relationship between the response and predictor. Include confidence intervals. There are multiple ways to create predicted effects plots (e.g., ggeffects R package, use the base R package 'predict' function). **But** be careful that the confidence intervals are correct (see hint in question #6)! *Specifically, there is no such thing as a negative probability!!*
 
 
 

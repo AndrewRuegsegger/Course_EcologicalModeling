@@ -475,6 +475,18 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Hello, Bayes!
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="03-A-HelloBayes.html">Lab: Hello, Bayes!</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Model Selection
      
     <span class="caret"></span>
@@ -533,21 +545,6 @@ div.tocify {
     </li>
     <li>
       <a href="06-B-Homework-04.html">Homework 4</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Hello, Bayes!
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="07-A-Homework-05.html">Homeork 5</a>
-    </li>
-    <li>
-      <a href="07-B-HelloBayes.html">Lab: Hello, Bayes!</a>
     </li>
   </ul>
 </li>
@@ -646,43 +643,14 @@ your probability distribution choices, choices on priors, etc.</li>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      palmerpenguins, </span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      here,</span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      brms,</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## 
-##   There is a binary version available but the source version is later:
-##          binary source needs_compilation
-## QuickJSR 1.10.0 1.11.0              TRUE
-## 
-## package &#39;numDeriv&#39; successfully unpacked and MD5 sums checked
-## package &#39;StanHeaders&#39; successfully unpacked and MD5 sums checked
-## package &#39;inline&#39; successfully unpacked and MD5 sums checked
-## package &#39;gridExtra&#39; successfully unpacked and MD5 sums checked
-## package &#39;RcppParallel&#39; successfully unpacked and MD5 sums checked
-## package &#39;pkgbuild&#39; successfully unpacked and MD5 sums checked
-## package &#39;checkmate&#39; successfully unpacked and MD5 sums checked
-## package &#39;tensorA&#39; successfully unpacked and MD5 sums checked
-## package &#39;distributional&#39; successfully unpacked and MD5 sums checked
-## package &#39;desc&#39; successfully unpacked and MD5 sums checked
-## package &#39;ggridges&#39; successfully unpacked and MD5 sums checked
-## package &#39;reshape2&#39; successfully unpacked and MD5 sums checked
-## package &#39;mvtnorm&#39; successfully unpacked and MD5 sums checked
-## package &#39;Brobdingnag&#39; successfully unpacked and MD5 sums checked
-## package &#39;rstan&#39; successfully unpacked and MD5 sums checked
-## package &#39;loo&#39; successfully unpacked and MD5 sums checked
-## package &#39;posterior&#39; successfully unpacked and MD5 sums checked
-## package &#39;rstantools&#39; successfully unpacked and MD5 sums checked
-## package &#39;bayesplot&#39; successfully unpacked and MD5 sums checked
-## package &#39;bridgesampling&#39; successfully unpacked and MD5 sums checked
-## package &#39;future.apply&#39; successfully unpacked and MD5 sums checked
-## package &#39;matrixStats&#39; successfully unpacked and MD5 sums checked
-## package &#39;nleqslv&#39; successfully unpacked and MD5 sums checked
-## package &#39;abind&#39; successfully unpacked and MD5 sums checked
-## package &#39;brms&#39; successfully unpacked and MD5 sums checked</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Read in a data file</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&#39;palmerpenguins&#39;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Read in a data file</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&#39;palmerpenguins&#39;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 
 

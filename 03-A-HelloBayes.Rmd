@@ -34,6 +34,8 @@ knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 60), tidy = TRUE)
 
 Northern Bobwhite (hereafter 'quail') are declining across most of their range. Quail are also a wildly popular species to hunt, study, and worry about--which often means there is excellent data on them! Today, we're going to use historic quail "whistle count" surveys from eastern Nebraska to describe trends in quail abundance. Whistle counts are often used as a proxy for abundance (i.e., more whistles = more quail). The data you'll be using ranges from 1965 - 2020! 
 
+Download this [R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/04-A-hello-bayes-exercise-code.R). We'll use it to work through the challenges today.
+
 ---
 
 <p>
@@ -120,28 +122,28 @@ whistle <-
 
 ```
 
-## Data Exploration
+<!-- ## Data Exploration -->
 
-**On your own, familiarize yourself with the data.** Below, we have an example:
+<!-- **On your own, familiarize yourself with the data.** Below, we have an example: -->
 
-```{r, eval = TRUE, message = FALSE, include = TRUE, echo = TRUE}
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE, echo = TRUE} -->
 
-ggplot(whistle,
-       aes(x = Year, y = WhistleCount, group = Route.Name, color = Route.Name)) + 
-  geom_point() +
-  geom_line(linewidth = 1.5) + 
-  scale_colour_viridis_d() +
-  theme_bw()
+<!-- ggplot(whistle, -->
+<!--        aes(x = Year, y = WhistleCount, group = Route.Name, color = Route.Name)) +  -->
+<!--   geom_point() + -->
+<!--   geom_line(linewidth = 1.5) +  -->
+<!--   scale_colour_viridis_d() + -->
+<!--   theme_bw() -->
 
-```
+<!-- ``` -->
 
-## Your Task:
+<!-- ## Your Task: -->
 
-**Objective:** *Quantify spatiotemporal trends in quail whistle counts*
+<!-- **Objective:** *Quantify spatiotemporal trends in quail whistle counts* -->
 
-1. We will work in groups.
-2. Define your modeling “purpose.”
-3. Define your analysis methods (e.g., one global model? model selection?)
-4. Create and run your model(s). 
-5. Interpret the output (plot predictions, create tables, ppc checks, etc.)
-6. Draft results
+<!-- 1. We will work in groups. -->
+<!-- 2. Define your modeling “purpose.” -->
+<!-- 3. Define your analysis methods (e.g., one global model? model selection?) -->
+<!-- 4. Create and run your model(s).  -->
+<!-- 5. Interpret the output (plot predictions, create tables, ppc checks, etc.) -->
+<!-- 6. Draft results -->

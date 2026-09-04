@@ -475,6 +475,18 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Hello, Bayes!
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="03-A-HelloBayes.html">Lab: Hello, Bayes!</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Model Selection
      
     <span class="caret"></span>
@@ -536,21 +548,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Hello, Bayes!
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="07-A-Homework-05.html">Homeork 5</a>
-    </li>
-    <li>
-      <a href="07-B-HelloBayes.html">Lab: Hello, Bayes!</a>
-    </li>
-  </ul>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -579,8 +576,9 @@ having to reset my working directory, and without forcing me to install
 anything on my machine (i.e., use the require(librarian); shelf(your
 packages, lib = tempdir()) approach as in the code block below). This
 also means there should be <em>NO ERRORS</em> when I run it!</li>
-<li><strong>Format:</strong> Answer each question with text and code,
-plus figures/tables where appropriate.</li>
+<li><strong>Format:</strong> Answer each question with text and code
+plus figures/tables where appropriate in an R script or RMarkdown
+file.</li>
 </ul>
 <div id="background" class="section level3">
 <h3>Background</h3>
@@ -658,13 +656,21 @@ out <a href="https://bbolker.github.io/stat4c03/notes/logistic.pdf">Ben
 Bolker’s logistic regression walkthrough</a>, especially page 5.</li>
 </ol></li>
 <li>Summarize results from both models, as well as your model
-diagnostics. Be careful to differentiate the linear regression results
-from the generalized linear model results.</li>
-<li>The authors log transformed the bleaching variable “… to generate
-linear relationships with temperature.” In R, back transform LOGBLEACH
-to the original percentage scale, and plot against SST (No need to
-re-run the model). Does a log-transformation make ecological sense,
-given the type of process and the data?</li>
+diagnostics (2 - 4 sentences for each model). Be careful to
+differentiate the linear regression results from the generalized linear
+model results.</li>
+<li>The authors log transformed the bleaching variable “to generate
+linear relationships with temperature.” Back transform LOGBLEACH to the
+original percentage scale. Now:
+<ol style="list-style-type: lower-alpha">
+<li>Create a scatterplot with SST on the x-axis and the back-transformed
+LOGBLEACH values on the y-axis.</li>
+<li>Create histograms of the back-transformed LOGBLEACH values, SST
+values, and LOGBLEACH values.</li>
+<li>In words, tell me if a log-transformation make ecological sense,
+given the type of process and the data–and the plots you just
+created.</li>
+</ol></li>
 <li>At what range of values does the linear regression model (still
 using the LOGBLEACH response variable) predict 50% bleaching will occur?
 Provide an estimate of uncertainty for this prediction (Hint: use the
@@ -681,7 +687,8 @@ relationship between the response and predictor. Include confidence
 intervals. There are multiple ways to create predicted effects plots
 (e.g., ggeffects R package, use the base R package ‘predict’ function).
 <strong>But</strong> be careful that the confidence intervals are
-correct (see hint in question #6)!</li>
+correct (see hint in question #6)! <em>Specifically, there is no such
+thing as a negative probability!!</em></li>
 </ol>
 </div>
 

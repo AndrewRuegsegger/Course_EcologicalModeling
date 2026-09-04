@@ -60,7 +60,7 @@ Some details on the data:
 
 5) Create plot(s) to check for relationships between response variables (richness, diversity) and predictor variables (year, site, treatment). Using commented text, describe potential relationships.
 
-6) Why or why not should we worry about collinearity in our predictor variables?
+6) Should we worry about collinearity in our predictor variables? Why or why not?
 
 7) Create plot(s) to check for a potential interaction between `year` and `treatment`. Using commented text, tell me why we should or shouldn't consider this interaction?
 
