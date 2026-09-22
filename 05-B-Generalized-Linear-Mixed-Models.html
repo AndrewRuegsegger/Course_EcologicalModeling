@@ -493,10 +493,25 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="03-A-model-selection.html">Lab</a>
+      <a href="03-A-model-selection.html">Lab: Intro to Model Selection</a>
     </li>
     <li>
-      <a href="03-B-Homework-02.html">Homework 2</a>
+      <a href="03-B-bayes-modsel.html">Lab: Bayesian Model Selection</a>
+    </li>
+    <li>
+      <a href="03-C-Homework-03.html">Homework 3</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis A - Z
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="05-A-Analysis-Lab.html">Lab: Analysis A - Z</a>
     </li>
   </ul>
 </li>
@@ -528,9 +543,6 @@ div.tocify {
     <li>
       <a href="05-C-Confidence-Intervals-Mixed-Models.html">Lab: Confidence Intervals for Mixed Models</a>
     </li>
-    <li>
-      <a href="05-C-Homework-03.html">Homework 3</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -542,9 +554,6 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="06-A-Hierarchical-Generalized-Additive-Models.html">Lab: HGAMs</a>
-    </li>
-    <li>
-      <a href="06-B-Homework-04.html">Homework 4</a>
     </li>
   </ul>
 </li>
@@ -603,25 +612,25 @@ width="600" />
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>      broom.mixed,</span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>      DHARMa, <span class="co"># For mixed model diagnostics</span></span>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>(),</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## package &#39;MuMIn&#39; successfully unpacked and MD5 sums checked</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">read.table</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;/data/DeerEcervi.txt&quot;</span>), </span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>             <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="fu">read.table</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;/data/DeerEcervi.txt&quot;</span>), </span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>             <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <div id="data-exploration" class="section level3">
 <h3>Data Exploration</h3>
 <p><strong>On your own, familiarize yourself with the data.</strong> One
 critical data exploration points: the average number of larvae in a
 fecal sample is highly skewed to the right – many zeros but also some
 very large values.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">hist</span>(ecervi<span class="sc">$</span>Ecervi,</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of L1 E. cervi&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">hist</span>(ecervi<span class="sc">$</span>Ecervi,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of L1 E. cervi&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>The response variable is continuous, so we need to do some data
 manipulation in order to get presence/absence data. This is one way to
@@ -629,23 +638,23 @@ handle highly skewed data like this. While we’re doing that, we’ll make
 sure sex is categorical and center the length variable to improve
 convergence, and make the intercept directly interpretable as the
 probability of presence for an average size deer.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Convert E cervi abundance to presence/absence (1 , 0), create a factor for</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># sex, and center the length variable by subtracting the mean.</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  ecervi <span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Ecervi.pa =</span> Ecervi <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>         <span class="at">fSex =</span> <span class="fu">factor</span>(Sex, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>)),</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>         <span class="at">cLength =</span> Length <span class="sc">-</span> <span class="fu">mean</span>(Length))</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># Plot the potential relationship between cLength and E cervi abundance</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">ggplot</span>(ecervi, </span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> cLength, </span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>           <span class="at">y =</span> Ecervi,</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>           <span class="at">color =</span> Farm)) <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;magma&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> fSex) <span class="sc">+</span> </span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Convert E cervi abundance to presence/absence (1 , 0), create a factor for</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># sex, and center the length variable by subtracting the mean.</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  ecervi <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Ecervi.pa =</span> Ecervi <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>         <span class="at">fSex =</span> <span class="fu">factor</span>(Sex, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>)),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>         <span class="at">cLength =</span> Length <span class="sc">-</span> <span class="fu">mean</span>(Length))</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># Plot the potential relationship between cLength and E cervi abundance</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">ggplot</span>(ecervi, </span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> cLength, </span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>           <span class="at">y =</span> Ecervi,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>           <span class="at">color =</span> Farm)) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;magma&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> fSex) <span class="sc">+</span> </span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
 <p>One issue that can affect a binomial model is called “complete
 separation”. This arises when one predictor is a “perfect” predictor of
@@ -653,10 +662,10 @@ presence or absence. There is a value above which there are only
 presences and below which there are only absences. The plot above
 suggests that won’t be an issue with our fixed effects, but there could
 be farms that are perfectly affected or unaffected.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Check if there is danger of &quot;complete separation&quot;. If there are farms without</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># any E cervi, that could be a problem.</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">with</span>(ecervi, </span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>     <span class="fu">table</span>(Farm, Ecervi.pa))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Check if there is danger of &quot;complete separation&quot;. If there are farms without</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># any E cervi, that could be a problem.</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">with</span>(ecervi, </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>     <span class="fu">table</span>(Farm, Ecervi.pa))</span></code></pre></div>
 <pre><code>##       Ecervi.pa
 ## Farm   FALSE TRUE
 ##   AL       9    6
@@ -694,11 +703,11 @@ model here has the interaction of sex and length. We clearly have a
 repeated measures design, so we will start with a mixed model using Farm
 as the random effect. It is also possible that the effects of sex and
 length could vary by farm.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Global model: Take 1</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> cLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">*</span> cLength <span class="sc">|</span> Farm), </span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>            <span class="at">data =</span> ecervi, </span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>            <span class="at">family =</span> binomial)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">summary</span>(M0)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Global model: Take 1</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> cLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">*</span> cLength <span class="sc">|</span> Farm), </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>            <span class="at">data =</span> ecervi, </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>            <span class="at">family =</span> binomial)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">summary</span>(M0)</span></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -748,48 +757,48 @@ coefficients for those two variables will be closer, and this can help
 with convergence. I will also change the contrasts on Sex to “sum to
 zero” contrasts, which has a similar beneficial effect to centering a
 continuous variable.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Divide length by its standard deviation</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  ecervi <span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">csLength =</span> cLength <span class="sc">/</span> <span class="fu">sd</span>(Length))</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co"># &quot;Center&quot; the random effect of sex</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">contrasts</span>(ecervi<span class="sc">$</span>fSex) <span class="ot">&lt;-</span> <span class="fu">contr.sum</span>(<span class="dv">2</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># Global model: Take 2</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">*</span> csLength <span class="sc">|</span> Farm), </span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>            <span class="at">data =</span> ecervi,</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>            <span class="at">family =</span> binomial)</span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># summary(M0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Divide length by its standard deviation</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  ecervi <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">csLength =</span> cLength <span class="sc">/</span> <span class="fu">sd</span>(Length))</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># &quot;Center&quot; the random effect of sex</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">contrasts</span>(ecervi<span class="sc">$</span>fSex) <span class="ot">&lt;-</span> <span class="fu">contr.sum</span>(<span class="dv">2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># Global model: Take 2</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">*</span> csLength <span class="sc">|</span> Farm), </span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>            <span class="at">data =</span> ecervi,</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>            <span class="at">family =</span> binomial)</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co"># summary(M0)</span></span></code></pre></div>
 <p>Still fails to converge. OK, let’s try the next simplest model,
 leaving out the interaction in the random effect.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Global model: Take 3</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">+</span> csLength <span class="sc">|</span> Farm), </span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>            <span class="at">data =</span> ecervi,</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>            <span class="at">family =</span> binomial)</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co"># summary(M0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Global model: Take 3</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">+</span> csLength <span class="sc">|</span> Farm), </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>            <span class="at">data =</span> ecervi,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>            <span class="at">family =</span> binomial)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># summary(M0)</span></span></code></pre></div>
 <p>That model also fails to converge! Let’s check the two simpler models
 that allow fSex or csLength to vary across farms.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Simplified models:</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>M0_LF <span class="ot">&lt;-</span> </span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> csLength <span class="sc">|</span> Farm),</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>        <span class="at">data =</span> ecervi,</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>        <span class="at">family =</span> binomial)</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>M0_SF <span class="ot">&lt;-</span> </span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">|</span> Farm),</span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>        <span class="at">data =</span> ecervi,</span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>        <span class="at">family =</span> binomial)</span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># # </span><span class="al">NOTE</span><span class="co">: So we don&#39;t clutter things up, check the summaries on your own.</span></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># summary(M0_LF)</span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># summary(M0_SF)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Simplified models:</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>M0_LF <span class="ot">&lt;-</span> </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> csLength <span class="sc">|</span> Farm),</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>        <span class="at">data =</span> ecervi,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>        <span class="at">family =</span> binomial)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>M0_SF <span class="ot">&lt;-</span> </span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">glmer</span>(Ecervi.pa <span class="sc">~</span> fSex <span class="sc">*</span> csLength <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> fSex <span class="sc">|</span> Farm),</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>        <span class="at">data =</span> ecervi,</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>        <span class="at">family =</span> binomial)</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co"># # </span><span class="al">NOTE</span><span class="co">: So we don&#39;t clutter things up, check the summaries on your own.</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co"># summary(M0_LF)</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># summary(M0_SF)</span></span></code></pre></div>
 <p>Both of those models converge. Check residuals for both.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Get residuals with DHARMa: QQ plot and residuals vs. predicted</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>simulationOutput_LF <span class="ot">&lt;-</span> </span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> M0_LF, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Get residuals with DHARMa: QQ plot and residuals vs. predicted</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>simulationOutput_LF <span class="ot">&lt;-</span> </span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> M0_LF, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># Plot residuals vs. group--farm in this case</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput_LF, <span class="at">form =</span> ecervi<span class="sc">$</span>Farm)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Plot residuals vs. group--farm in this case</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput_LF, <span class="at">form =</span> ecervi<span class="sc">$</span>Farm)</span></code></pre></div>
 <p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-10-2.png" alt="" width="672" /></p>
 <p>The QQ plot, tests, and residuals vs. predicted plots look fine, but
 there appear to be issues with heteroscedasticity across farms.
@@ -811,52 +820,52 @@ ones using <span class="math inline">\(AIC_c\)</span>. We can build the
 set with all possible random effects, and all possible fixed effects
 models. The number of variables is small, so this will be a reasonable
 thing to do–at least for the purposes of this lab…</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># All fixed effect combinations</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>fe <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;fSex&quot;</span>,</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>        <span class="st">&quot;csLength&quot;</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>        <span class="st">&quot;fSex + csLength&quot;</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>        <span class="st">&quot;fSex * csLength&quot;</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co"># All random effect combinations</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>re <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;(1 | Farm)&quot;</span>, </span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>        <span class="st">&quot;(1 | Farm) + (0 + fSex | Farm)&quot;</span>,</span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>        <span class="st">&quot;(1 | Farm) + (0 + csLength | Farm)&quot;</span>,</span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>        <span class="st">&quot;(1 | Farm) + (0 + fSex | Farm) + (0 + csLength | Farm)&quot;</span>,</span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>        <span class="st">&quot;(1 + fSex | Farm)&quot;</span>,</span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>        <span class="st">&quot;(1 + csLength | Farm)&quot;</span>)</span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co"># Get all combinations in a data.frame</span></span>
-<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>forms <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">LHS =</span> <span class="st">&quot;Ecervi.pa ~&quot;</span>, </span>
-<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>                     <span class="at">fe =</span> fe, </span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>                     <span class="at">re =</span> re)</span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a><span class="co"># Collapse into formulas for models</span></span>
-<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>models <span class="ot">&lt;-</span> </span>
-<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>  forms <span class="sc">%&gt;%</span></span>
-<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RHS =</span> <span class="fu">paste</span>(fe, re, <span class="at">sep =</span> <span class="st">&quot;+&quot;</span>),</span>
-<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a>         <span class="at">model =</span> <span class="fu">paste</span>(LHS, RHS))</span>
-<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a></span>
-<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a><span class="co"># Fit all the models</span></span>
-<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>fits <span class="ot">&lt;-</span> <span class="fu">lapply</span>(models<span class="sc">$</span>model, </span>
-<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>               <span class="cf">function</span>(X) { </span>
-<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>                 <span class="fu">glmer</span>(X,</span>
-<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>                       <span class="at">data =</span> ecervi,</span>
-<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a>                       <span class="at">family =</span> binomial)</span>
-<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a>               }</span>
-<span id="cb15-33"><a href="#cb15-33" tabindex="-1"></a>)</span>
-<span id="cb15-34"><a href="#cb15-34" tabindex="-1"></a></span>
-<span id="cb15-35"><a href="#cb15-35" tabindex="-1"></a><span class="co"># Name the fitted objects in the list</span></span>
-<span id="cb15-36"><a href="#cb15-36" tabindex="-1"></a><span class="fu">names</span>(fits) <span class="ot">&lt;-</span> models<span class="sc">$</span>model</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># All fixed effect combinations</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>fe <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;fSex&quot;</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>        <span class="st">&quot;csLength&quot;</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>        <span class="st">&quot;fSex + csLength&quot;</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>        <span class="st">&quot;fSex * csLength&quot;</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co"># All random effect combinations</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>re <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;(1 | Farm)&quot;</span>, </span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>        <span class="st">&quot;(1 | Farm) + (0 + fSex | Farm)&quot;</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>        <span class="st">&quot;(1 | Farm) + (0 + csLength | Farm)&quot;</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>        <span class="st">&quot;(1 | Farm) + (0 + fSex | Farm) + (0 + csLength | Farm)&quot;</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>        <span class="st">&quot;(1 + fSex | Farm)&quot;</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>        <span class="st">&quot;(1 + csLength | Farm)&quot;</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co"># Get all combinations in a data.frame</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>forms <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">LHS =</span> <span class="st">&quot;Ecervi.pa ~&quot;</span>, </span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>                     <span class="at">fe =</span> fe, </span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>                     <span class="at">re =</span> re)</span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="co"># Collapse into formulas for models</span></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>models <span class="ot">&lt;-</span> </span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>  forms <span class="sc">%&gt;%</span></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RHS =</span> <span class="fu">paste</span>(fe, re, <span class="at">sep =</span> <span class="st">&quot;+&quot;</span>),</span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a>         <span class="at">model =</span> <span class="fu">paste</span>(LHS, RHS))</span>
+<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a><span class="co"># Fit all the models</span></span>
+<span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a>fits <span class="ot">&lt;-</span> <span class="fu">lapply</span>(models<span class="sc">$</span>model, </span>
+<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a>               <span class="cf">function</span>(X) { </span>
+<span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a>                 <span class="fu">glmer</span>(X,</span>
+<span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a>                       <span class="at">data =</span> ecervi,</span>
+<span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a>                       <span class="at">family =</span> binomial)</span>
+<span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a>               }</span>
+<span id="cb13-33"><a href="#cb13-33" tabindex="-1"></a>)</span>
+<span id="cb13-34"><a href="#cb13-34" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" tabindex="-1"></a><span class="co"># Name the fitted objects in the list</span></span>
+<span id="cb13-36"><a href="#cb13-36" tabindex="-1"></a><span class="fu">names</span>(fits) <span class="ot">&lt;-</span> models<span class="sc">$</span>model</span></code></pre></div>
 <p>Some models may not have failed to converge. Use the handy
 “check_convergence” function in the “performance” package to check the
 list:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># # Check for convergence</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co"># lapply(fits, check_convergence)</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># # Check for convergence</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co"># lapply(fits, check_convergence)</span></span></code></pre></div>
 <p>Now we’re ready to see which models are the best, keeping a wary eye
 out for the model(s) that did not converge…</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># Using MuMIn for model selection</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>modSelection <span class="ot">&lt;-</span> <span class="fu">model.sel</span>(fits)</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co"># modSelection</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># Using MuMIn for model selection</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>modSelection <span class="ot">&lt;-</span> <span class="fu">model.sel</span>(fits)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co"># modSelection</span></span></code></pre></div>
 <p><strong>On your own, interpret the model selection table. Which model
 or models should we use going forward?</strong></p>
 <p>Critically, one difference from the “regular” linear mixed model with
@@ -865,35 +874,35 @@ estimation to compare models with different fixed effects.
 <code>glmer()</code> is already using maximum likelihood for
 everything.</p>
 <p>For simplicity’s sake, let’s go ahead and use the top model:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>topmod <span class="ot">&lt;-</span> fits<span class="sc">$</span><span class="st">`</span><span class="at">Ecervi.pa ~ fSex * csLength+(1 + csLength | Farm)</span><span class="st">`</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co"># summary(fits$`Ecervi.pa ~ fSex * csLength+(1 + csLength | Farm)`)</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>topmod <span class="ot">&lt;-</span> fits<span class="sc">$</span><span class="st">`</span><span class="at">Ecervi.pa ~ fSex * csLength+(1 + csLength | Farm)</span><span class="st">`</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co"># summary(fits$`Ecervi.pa ~ fSex * csLength+(1 + csLength | Farm)`)</span></span></code></pre></div>
 <p>Next we want to make some plots of the effects so we can interpret
 what is going on. First we’ll create some new data and go from there as
 we have in the past. The additional wrinkle is that we have to think
 about what we want predict to do with the random effects. The first
 option is to look at the “population average” response, which we do by
 setting <code>re.form=~0</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># Get range of &#39;csLength&#39; values</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>lr <span class="ot">=</span> <span class="fu">range</span>(ecervi<span class="sc">$</span>csLength)</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co"># Create new data.frame for predictions</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">csLength =</span> <span class="fu">seq</span>(lr[<span class="dv">1</span>], lr[<span class="dv">2</span>], <span class="at">length =</span> <span class="dv">20</span>),</span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>                  <span class="at">fSex =</span> <span class="fu">factor</span>(<span class="fu">levels</span>(ecervi<span class="sc">$</span>fSex)))</span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co"># Unconditional prediction</span></span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>nd<span class="sc">$</span>pp <span class="ot">&lt;-</span> </span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>  <span class="fu">predict</span>(topmod,</span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>          <span class="at">newdata =</span> nd,</span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>          <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="co"># No need for plogis. Why?</span></span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>          <span class="at">re.form =</span>  <span class="sc">~</span> <span class="dv">0</span>)</span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a></span>
-<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="co"># Plot unconditional prediction</span></span>
-<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="fu">ggplot</span>(nd, <span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex)) <span class="sc">+</span> </span>
-<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Centered and scaled Length&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Probability of E. cervi infection&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;t&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, <span class="sc">!</span>Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;b&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># Get range of &#39;csLength&#39; values</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>lr <span class="ot">=</span> <span class="fu">range</span>(ecervi<span class="sc">$</span>csLength)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co"># Create new data.frame for predictions</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">csLength =</span> <span class="fu">seq</span>(lr[<span class="dv">1</span>], lr[<span class="dv">2</span>], <span class="at">length =</span> <span class="dv">20</span>),</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>                  <span class="at">fSex =</span> <span class="fu">factor</span>(<span class="fu">levels</span>(ecervi<span class="sc">$</span>fSex)))</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co"># Unconditional prediction</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>nd<span class="sc">$</span>pp <span class="ot">&lt;-</span> </span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="fu">predict</span>(topmod,</span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>          <span class="at">newdata =</span> nd,</span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>          <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="co"># No need for plogis. Why?</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>          <span class="at">re.form =</span>  <span class="sc">~</span> <span class="dv">0</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co"># Plot unconditional prediction</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="fu">ggplot</span>(nd, <span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex)) <span class="sc">+</span> </span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Centered and scaled Length&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Probability of E. cervi infection&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;t&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, <span class="sc">!</span>Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;b&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-16-1.png" alt="" width="672" /></p>
 <p>These lines represent the effect of length and sex for a typical
 farm.</p>
@@ -918,11 +927,11 @@ the predictions and confidence intervals on the coefficients.
 <code>lme4</code> has a pre-made function to get confidence intervals on
 the coefficients. <em>WARNING</em> this line of code will take &gt; 20
 minutes to run. Forget about these unless you’ve got a lot of time.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># Returns a matrix with estimates plus confidence intervals for all fixed and</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co"># random effects parameters. </span><span class="al">NOTE</span><span class="co">: you can reduce the number of simulations to</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co"># speed it up.</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>topmod.CI <span class="ot">&lt;-</span> <span class="fu">confint</span>(topmod, <span class="at">method =</span> <span class="st">&quot;boot&quot;</span>, <span class="at">oldNames =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>topmod.CI</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># Returns a matrix with estimates plus confidence intervals for all fixed and</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co"># random effects parameters. </span><span class="al">NOTE</span><span class="co">: you can reduce the number of simulations to</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co"># speed it up.</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>topmod.CI <span class="ot">&lt;-</span> <span class="fu">confint</span>(topmod, <span class="at">method =</span> <span class="st">&quot;boot&quot;</span>, <span class="at">oldNames =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>topmod.CI</span></code></pre></div>
 <p>This function draws random samples of the random effects and the
 i.i.d. errors, generates a simulated response based on those error
 values, and then re-estimates the model. The confidence limits are based

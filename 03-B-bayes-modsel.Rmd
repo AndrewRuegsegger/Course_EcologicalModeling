@@ -1,0 +1,40 @@
+---
+layout: topic
+title: "Model Selection: Bayesian Approaches"
+output: html_document
+---
+
+
+```{r include = FALSE}
+# This code block sets up the r session when the page is rendered to html
+# include = FALSE means that it will not be included in the html document
+
+# Write every code block to the html document 
+knitr::opts_chunk$set(echo = TRUE)
+
+# Write the results of every code block to the html document 
+knitr::opts_chunk$set(eval = TRUE)
+
+# Set the web address where R will look for files from this repository
+# Do not change this address
+repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
+
+# Suppress warnings and messages
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+```
+
+# Overview
+
+For our **Bayesian** model selection lab, we will be using some familiar data from this manuscript:
+
+Roberts, C. P., Donovan, V. M., Nodskov, S. M., Keele, E. B., Allen, C. R., Wedin, D. A., & Twidwell, D. (2020). Fire legacies, heterogeneity, and the importance of mixed-severity fire in ponderosa pine savannas. Forest Ecology and Management, 459, 117853.
+
+---
+
+<p>
+![Tree density 27 years after the 1989 wildfire in Fort Robinson State Park, Nebraska](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/PineRidgeFireHistory.png){width=800px}
+
+<p>
+
+*The goal will be to find the model(s) that best explain mean tree diameter at breast height (DBH)*. Our hypothesis is that DBH is governed by a combination of fire history (years-since-fire and burn severity), coarse woody debris (a proxy for fire history), and the number of trees. Please download this [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/05-A-bayes-modsel-exercise-code.R) and work through the challenges in it.

@@ -1,0 +1,57 @@
+---
+layout: topic
+title: "Analysis A - Z"
+output: html_document
+---
+
+```{r include = FALSE}
+
+# This code block sets up the r session when the page is rendered to html
+# include = FALSE means that it will not be included in the html document
+
+# Write every code block to the html document 
+knitr::opts_chunk$set(echo = TRUE)
+
+# Write the results of every code block to the html document 
+knitr::opts_chunk$set(eval = TRUE)
+
+# Set the web address where R will look for files from this repository
+# Do not change this address
+repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
+
+# Suppress warnings and messages
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+```
+
+## Overview
+
+Here's what we've covered so far:
+
+- Coding
+- Data exploration
+- (Generalized) Linear models
+- Bayesian vs. Frequentist stats
+- Model selection
+
+In this 2-part lab, we're going to put everything we've learned so far together! We'll use some familiar data collected in 2016 at Fort Robinson State Park, Nebraska, USA:
+
+Roberts, Caleb P.; Donovan, Victoria M.; Wonkka, Carissa L. et al. (2019).
+Data from: Fire legacies in eastern ponderosa pine forests [Dataset]. Dryad.
+https://doi.org/10.5061/dryad.3sp331p
+
+*The goal of these labs will be to start with the data and a hypothesis and end with a fully executed, reproducible analysis.* Our hypothesis: 
+
+**Bird species richness will be best predicted by burn status and fire severity. Current habitat structures will not be as predictive.**
+
+And here's a pretty picture of Fort Robinson to motivate you!
+
+<p>
+![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/FortRob.jpg){width=600px}
+<p>
+
+## Scripts
+
+In the first part, we will download, organize, explore, and wrangle the data. Here's the for the first part: [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/06-A-reproducability-rproj-exercise-code.R).
+
+In the second part, we will execute our analysis and produce results (tables, figures). Here's the Rscript for the second part: [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/06-B-final-analysis-exercise-code.R).

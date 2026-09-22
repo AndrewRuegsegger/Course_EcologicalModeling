@@ -32,10 +32,16 @@ navbar:
           href: 03-A-HelloBayes.html
     - text: "Model Selection"
       menu:
-        - text: "Lab"
+        - text: "Lab: Intro to Model Selection"
           href: 03-A-model-selection.html
-        - text: "Homework 2"
-          href: 03-B-Homework-02.html
+        - text: "Lab: Bayesian Model Selection"
+          href: 03-B-bayes-modsel.html
+        - text: "Homework 3"
+          href: 03-C-Homework-03.html
+    - text: "Analysis A - Z"
+      menu:
+        - text: "Lab: Analysis A - Z"
+          href: 05-A-Analysis-Lab.html
     - text: "Autocorrelation"
       menu:
         - text: "Lab"
@@ -48,14 +54,14 @@ navbar:
           href: 05-B-Generalized-Linear-Mixed-Models.html
         - text: "Lab: Confidence Intervals for Mixed Models"
           href: 05-C-Confidence-Intervals-Mixed-Models.html
-        - text: "Homework 3"
-          href: 05-C-Homework-03.html
+        # - text: "Homework 3"
+        #   href: 05-C-Homework-03.html
     - text: "HGAMs"
       menu:
         - text: "Lab: HGAMs"
           href: 06-A-Hierarchical-Generalized-Additive-Models.html
-        - text: "Homework 4"
-          href: 06-B-Homework-04.html
+        # - text: "Homework 4"
+        #   href: 06-B-Homework-04.html
 
 output_dir: "."
 exclude: ["CONTRIBUT*.md","index.md","README.md","*.db"]

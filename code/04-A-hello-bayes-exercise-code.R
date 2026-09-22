@@ -3,8 +3,9 @@
 
 # List of packages necessary to run this script:
 require(librarian)
-shelf(tidyverse, here, sf, brms, maps, terra, tidybayes,
-      lib = tempdir())
+shelf(tidyverse, here, sf, 
+      brms,
+      maps, terra, tidybayes)
 
 # Set path
 repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/"
@@ -83,16 +84,30 @@ fit_brm <-
       # large to reduce memory and computation time.
       thin = 1,
       # Number of cores to use. Can speed up processing if you're using >1 chain.
-      cores = 3)
+      cores = 3,
+      backend = "cmdstanr")
 
 # Check out the summary
 fit_brm
+
+# Fun with the posterior distribution
+
+# Get the posterior draws for the year parameter
+b_year <- as_draws(fit_brm, "b_Year_scaled")
+b_year_chain1 <- b_year$`1`
+hist(unlist(b_year_chain1))
+credInt_90 <- data.frame(CI_0.05 = quantile(unlist(b_year_chain1), 0.05),
+                         CI_0.95 = quantile(unlist(b_year_chain1), 0.95))
+credInt_90
 
 ### Challenge #1: 
 
 # Compare the frequentist and Bayesian model outputs/summary tables,
 # particularly the coefficient estimates and standard errors. Are there
 # differences? If so, what are they?
+
+summary(fit_lm)
+fit_brm
 
 #=============================================================================
 ## Model diagnostics
@@ -157,7 +172,8 @@ predTrunc0_df <-
                 probs = c(0.025, 0.975)))
 
 # Is the nonsense issue solved?
-ggplot(predTrunc0_df,
+ggplot(predTrunc0_df %>%
+         filter(Route.Name == "Otoe South"),
        aes(x = Year, 
            y = Estimate, 
            ymin = Q2.5, 
@@ -177,6 +193,8 @@ ggplot(predTrunc0_df,
 
 # Compare the posterior predictive checks between the simple brms model and the
 # zero truncated model. Which is a better fit?
+pp_check(fitTrunc0_brm)
+pp_check(fit_brm)
 
 #=============================================================================
 ## Generalized linear models in brms
@@ -185,6 +203,13 @@ ggplot(predTrunc0_df,
 
 # 1. There's a potential problem with the zero truncated model. Explore the data
 # to figure out what it is.
+
+glm((WhistleCount + 0.00001) ~ 1, 
+    family = Gamma,
+    data = whistle)
+
+range(whistle$WhistleCount, na.rm = TRUE)
+fitTrunc0_brm
 
 # 2. "Extra hard" challenge: how can we solve this potential problem with
 # frequentist OR Bayesian methods?

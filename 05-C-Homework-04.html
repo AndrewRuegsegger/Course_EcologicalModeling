@@ -11,7 +11,7 @@
 
 
 
-<title>Homework 1</title>
+<title>Homework 3</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -569,126 +569,141 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Homework 1</h1>
+<h1 class="title toc-ignore">Homework 3</h1>
 
 </div>
 
 
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>Please provide a reproducible .R script that answers all questions
+<p>Please provide a reproducible .Rmd script to address the scenario
 below and produces all of your analysis and plots. Some reminders:</p>
 <ul>
-<li><strong>Reproducible:</strong> This means when I run your .R file,
+<li><strong>Reproducible:</strong> This means when I run your .Rmd file,
 it will run all analyses and create all plots without errors, without me
 having to reset my working directory, and without forcing me to install
 anything on my machine (i.e., use the require(librarian); shelf(your
 packages, lib = tempdir()) approach as in the code block below). This
 also means there should be <em>NO ERRORS</em> when I run it!</li>
-<li><strong>Format:</strong> Answer each question with (commented) text
-and code.</li>
+<li><strong>Format:</strong> In the .Rmd file, arrange and format
+similar to a scientific article. Specifically, I want to see 1) an
+analytical methods section, 2) a results section that includes figures,
+tables, and <em>text interpreting the figures and tables and
+model(s)</em>!, and 3) a brief conclusion (1 - 2 paragraphs) based on
+the results. <strong>NOTE:</strong> You do not need to create an
+introduction, reiterate the data collection methods, or produce a
+literature cited section!</li>
 </ul>
 <div id="background" class="section level3">
 <h3>Background</h3>
-<p>The <a href="https://www.nps.gov/vall/index.htm">Valles Caldera
-National Preserve</a> is part of the National Parks. It’s the caldera of
-an old volcano in the Jemez Mountains of New Mexico, USA. It has some
-pretty interesting socio-ecological history. Part of that history is
-CRAZY overgrazing by sheep and cattle during Spanish and then American
-ownerships. This overgrazing resulted in massive plant biodiversity
-losses in the native grasslands and riparian areas in the Caldera. In
-the early 2000’s, some scientists established a grazing exclosure
-experiment along several of the riparian zones in the Caldera. Their
-goal was to see if excluding cattle or all ungulates (cattle, deer, and
-elk) would increase plant biodiversity in the riparian areas.</p>
-<p>Some details on the data:</p>
-<table>
-<colgroup>
-<col width="20%" />
-<col width="79%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Column Name</strong></th>
-<th><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>year</td>
-<td>years 2002 - 2014</td>
-</tr>
-<tr class="even">
-<td>site</td>
-<td>unique code for each site/treatment</td>
-</tr>
-<tr class="odd">
-<td>treatment</td>
-<td>treatment type. C = control, LE = livestock exclosure, UE = all
-ungulates exclosure</td>
-</tr>
-<tr class="even">
-<td>All other columns</td>
-<td>each column is a plant species, and values are number of
-observations per 300 points within each site.</td>
-</tr>
-</tbody>
-</table>
-<hr />
+<p>
+<div class="float">
+<img
+src="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/CirsiumVulgare_HarryRose.jpg"
+width="400"
+alt="“Cirsium vulgare plant2” by Harry Rose is licensed under CC BY 2.0." />
+<div class="figcaption">“Cirsium vulgare plant2” by Harry Rose is
+licensed under CC BY 2.0.</div>
+</div>
+<p>
+<p>One hypothesis for why some plants are able to invade novel
+ecosystems is that they “escape” the effect of herbivory by moving to
+the new environment. Bull Thistle (<em>Cirsium vulgare</em>) is a exotic
+plant introduced to North America from Eurasia. In many parts of the
+United States it is considered a highly invasive noxious plant. In
+Nebraska however, it appears to be present but not reaching high
+abundances, even after many decades of establishment. There is a native
+thistle, the Tall Thistle (<em>Cirsium altissimum</em>), which flowers
+simultaneously with Bull Thistle. Many of the native herbivores found on
+Tall Thistles also attack Bull Thistle, and can consume up to 90% of all
+viable seeds. Could these native herbivores be suppressing invasive Bull
+Thistle populations, and could that suppression be related to distance
+from native Tall Thistle patches?</p>
+</div>
+<div id="the-scenario" class="section level3">
+<h3>The scenario</h3>
+<p>Hi! I’m a graduate student, and I set up an experiment testing the
+effects of distance to tall thistle patch on bull thistle seedling
+establishment density. I didn’t talk to a statistician before designing
+the experiment, which I know is a big no-no… So I know this is a big
+ask, but I <strong>really</strong> need your expert statistical advice!
+Here’s the info on my experiment:</p>
+<p>I established <span class="math inline">\(4m^2\)</span> plots of bull
+thistle seedlings at five distances (0, 7.5, 15, 30 and 60 meters) from
+a tall thistle patch. I did not attempt to control the presence or
+abundance of other patches of tall thistle at the site. At each
+distance, I established an insecticide (insect herbivory reduced) and
+control (insect herbivory present) plot. I sowed a fixed weight of Bull
+thistle seeds into the plots in April (538 seeds/ <span
+class="math inline">\(4m^2\)</span>) and censused seedling density per
+<span class="math inline">\(1m2\)</span> subplots the following
+September across all distances for insecticide and control plots. I
+repeated this experimental design in 10 sites in Washington and southern
+Benton counties. Additionally, I clumped sites into regions (4 regions),
+adding a second layer of spatial complexity. All sites within a region
+are closer to each other than in other regions. Region 1 is comprised of
+3 sites at Healing Springs Natural Area, region 2 is a single site at
+Woolsey Wet Prairie, region 3 includes 3 sites Wilson Springs Preserve,
+and region 4 includes 3 sites at the Milo J. Shult Agricultural Research
+Center (the UA “farm”).</p>
+<p>I tried a two way ANOVA for an initial analysis. But according to the
+ANOVA, there didn’t appear to be an effect of distance! This is
+devastating to the enemy release hypothesis, and I’m afraid I’m going to
+have to completely rewrite my thesis! I heard you just learned about
+mixed modeling. Could you <em>please</em> run a generalized or linear
+mixed model on my data and see if it picks up a different signal?!?</p>
+</div>
+<div id="data-description" class="section level3">
+<h3>Data description</h3>
+<ul>
+<li>Region: the larger spatial grouping of sites. All sites within the
+same region are within 1 km of each other.<br />
+</li>
+<li>Site: a full set of the experimental treatments</li>
+<li>Distance: distance (m) of bull thistle patch to a tall thistle
+patch</li>
+<li>Spray: insecticide vs control</li>
+<li>Plot: there are 10 plots at each site, labeled by the spray
+treatment and distance</li>
+<li>Subplot: Each 4m2 plot is divided into 4-1m2 plots</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      MuMIn,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      lme4,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      DHARMa,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      broom.mixed,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>      performance,</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/&quot;</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>thistles <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(repo_url,</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>                            <span class="st">&quot;C_vulgare_seedling_dataset.csv&quot;</span>))</span></code></pre></div>
+<p>The top row is the insecticide (“i”) plots, bottom row is control
+plots (“c”). There are four points at each distance for the four
+subplots. You also need to setup the factors for region, site, plot and
+subplot thus:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>thistles<span class="sc">$</span>region <span class="ot">=</span> <span class="fu">factor</span>(thistles<span class="sc">$</span>region)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>thistles<span class="sc">$</span>site <span class="ot">=</span> <span class="fu">factor</span>(thistles<span class="sc">$</span>site)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>thistles<span class="sc">$</span>plot <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">paste</span>(thistles<span class="sc">$</span>spray, thistles<span class="sc">$</span>distance, <span class="at">sep =</span> <span class="st">&quot;.&quot;</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>thistles<span class="sc">$</span>subplot <span class="ot">=</span> <span class="fu">factor</span>(thistles<span class="sc">$</span>subplot)</span></code></pre></div>
 </div>
 </div>
 <div id="your-assignment" class="section level2">
 <h2>Your assignment</h2>
-<ol style="list-style-type: decimal">
-<li><p>The <code>site</code> metadata column has too much information:
-we need to split the information up into separate columns of it out
-while retaining the unique identifier information. Revise the
-<code>site</code> column to be the first three characters in the current
-<code>site</code> column (e.g., the new site value for RS1C1 should be
-“RS1”), and create a new column named <code>plotCode</code> with the
-final 1 - 2 characters in the current <code>site</code> column (e.g.,
-the plotCode value for RS1C1 should be “C1”). To be clear: when you’re
-finished with this problem, the metadata columns should be:
-<code>year</code>, <code>site</code>, <code>plotCode</code>, and
-<code>treatment</code>.</p></li>
-<li><p>Create a <code>Richness_total</code> column by calculating total
-species richness for each row, and create an
-<code>Diversity_InvSimp</code> column by calculating Inverse Simpson’s
-Diversity Index for each row. Hint: for the Inverse Simpson’s, check out
-the <code>vegan::diversity</code> function. Also, total species richness
-is the total number of species per row.</p></li>
-</ol>
-<!-- 3) Use the wetland obligate species list (see code block below) to create a column of *wetland obligate*  species richness. That is, the number of wetland obligate species per row. -->
-<ol start="3" style="list-style-type: decimal">
-<li><p>Using boxplots and histograms, check for outliers in the total
-species richness and species diversity columns.</p></li>
-<li><p>Check for balance in the data across sites, years, and
-treatments. Hint: use the <code>table</code> function. Using commented
-text, say if data is balanced and if not, how so?</p></li>
-<li><p>Create plot(s) to check for relationships between response
-variables (richness, diversity) and predictor variables (year, site,
-treatment). Using commented text, describe potential
-relationships.</p></li>
-<li><p>Should we worry about collinearity in our predictor variables?
-Why or why not?</p></li>
-<li><p>Create plot(s) to check for a potential interaction between
-<code>year</code> and <code>treatment</code>. Using commented text, tell
-me why we should or shouldn’t consider this interaction?</p></li>
-</ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, sf, vegan, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Repo URL </span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># Load riparian vegetation monitoring dataset:</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>dat <span class="ot">&lt;-</span> </span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;data/rip.dat.02-14.csv&quot;</span>))</span></code></pre></div>
-<!-- # # Wetland obligate species of interest -->
-<!-- # wetObl <-  -->
-<!-- #   c("ALAE", "CAAQ",  "CAPEL",    "CASIM",    "CAUT", "CIMA", "ELAC", "ELPAL",     -->
-<!-- #     "GLGR",  "GLST", "LEMI", "MIGL", "POAN", "PONA", "RAMA", "SPAN", "TOPA") -->
+<p>Using these data, apply your knowledge of (generalized?) linear mixed
+models to determine if there is support for the enemy release
+hypothesis. <em>Remember:</em> not only are you analyzing the data, but
+you are also doing a post-mortem on the experiment/data collection/study
+design. Make sure to do model diagnostics and include any glaring issues
+you identify in the Results. See the <em>Format</em> instructions in the
+Overview section for required format and elements.</p>
 </div>
 
 

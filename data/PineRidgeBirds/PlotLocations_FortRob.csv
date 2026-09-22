@@ -1,0 +1,102 @@
+ID,Burn,Class,Latitude,Longitude,Changes:
+31,Fort Rob,Forest,42.682234,-103.455004,Replaced 31 --SURVEY
+31,Fort Rob,Forest,42.683721,-103.456743,Removed--DO NOT SURVEY
+32,Fort Rob,Forest,42.690769,-103.471731,Replaced 32 --SURVEY
+32,Fort Rob,Forest,42.690663,-103.471687,Removed--DO NOT SURVEY
+33,Fort Rob,Forest,42.678454,-103.457897,
+34,Fort Rob,Forest,42.687052,-103.46219,
+35,Fort Rob,Forest,42.688239,-103.464098,
+36,Fort Rob,Forest,42.683896,-103.459411,Replaced 36 --SURVEY
+36,Fort Rob,Forest,42.683928,-103.459723,Removed--DO NOT SURVEY
+37,Fort Rob,Forest High,42.659455,-103.521533,
+38,Fort Rob,Forest High,42.646482,-103.550194,
+39,Fort Rob,Forest High,42.665028,-103.532235,
+40,Fort Rob,Forest High,42.653886,-103.546056,
+41,Fort Rob,Forest High,42.658676,-103.516938,
+42,Fort Rob,Forest High,42.648147,-103.547202,
+43,Fort Rob,Forest Low,42.644345,-103.547217,
+44,Fort Rob,Forest Low,42.663273,-103.526641,
+45,Fort Rob,Forest Low,42.652982,-103.539906,
+46,Fort Rob,Forest Low,42.665543,-103.525743,
+47,Fort Rob,Forest Low,42.654618,-103.515663,Removed--DO NOT SURVEY
+48,Fort Rob,Forest Low,42.655582,-103.51835,Removed--DO NOT SURVEY
+49,Fort Rob,Grass,42.684274,-103.46561,Removed--DO NOT SURVEY
+50,Fort Rob,Grass,42.685174,-103.475599,
+51,Fort Rob,Grass,42.677508,-103.474188,51 Replaced --SURVEY
+51,Fort Rob,Grass,42.677124,-103.468684,Removed--DO NOT SURVEY
+52,Fort Rob,Grass,42.680107,-103.457363,
+53,Fort Rob,Grass,42.680522,-103.462316,
+54,Fort Rob,Grass,42.683385,-103.452058,
+55,Fort Rob,Grass Burn,42.654776,-103.547781,
+55,Fort Rob,Grass Burn,42.664338,-103.528982,55 Replaced --SURVEY
+56,Fort Rob,Grass Burn,42.664583,-103.528046,Removed--DO NOT SURVEY
+57,Fort Rob,Grass Burn,42.6551,-103.554327,
+58,Fort Rob,Grass Burn,42.656528,-103.533712,
+59,Fort Rob,Grass Burn,42.659181,-103.529519,
+60,Fort Rob,Grass Burn,42.657264,-103.508261,Removed--DO NOT SURVEY
+61,Fort Rob,Moderate Burn,42.668234,-103.524213,
+62,Fort Rob,Moderate Burn,42.661437,-103.529731,
+63,Fort Rob,Moderate Burn,42.649503,-103.551258,
+64,Fort Rob,Moderate Burn,42.655892,-103.541454,
+65,Fort Rob,Moderate Burn,42.647895,-103.544997,
+66,Fort Rob,Moderate Burn,42.658383,-103.530227,
+105,Fort Rob,Forest,42.688219,-103.472875,
+106,Fort Rob,Forest High,42.654491,-103.537463,
+107,Fort Rob,Forest Low,42.656028,-103.52238,Removed--DO NOT SURVEY
+108,Fort Rob,Grass,42.679661,-103.451079,
+109,Fort Rob,Grass Burn,42.663395,-103.535837,
+110,Fort Rob,Moderate Burn,42.665,-103.517744,
+200,Fort Rob,Forest High,42.644124,-103.545394,
+201,Fort Rob,Forest High,42.652913,-103.551927,
+202,Fort Rob,Forest High,42.650741,-103.554473,
+203,Fort Rob,Forest Moderate,42.659268,-103.528389,
+204,Fort Rob,Forest Moderate,42.653862,-103.553106,
+205,Fort Rob,Forest Moderate,42.659474,-103.53488,
+206,Fort Rob,ForestLow,42.662916,-103.518374,
+207,Fort Rob,ForestLow,42.649535,-103.55353,
+208,Fort Rob,ForestLow,42.658789,-103.51983,
+209,Fort Rob,ForestLow,42.657769,-103.544105,
+210,Fort Rob,ForestLow,42.65214,-103.555953,
+211,Fort Rob,Grass Burn,42.662037,-103.534026,
+212,Fort Rob,Grass Burn,42.660551,-103.537823,
+213,Fort Rob,Grass Burn,42.667583,-103.519438,
+214,Fort Rob,Grass Burn,42.657307,-103.551,
+215,FortRob,Forest Low,42.651497,-103.545185,
+216,FortRob,Forest Moderate,42.644161,-103.543212,New Point--SURVEY
+217,FortRob,Forest High,42.646793,-103.546337,New Point--SURVEY
+218,FortRob,Grass Burned,42.656152,-103.547907,New Point--SURVEY
+219,FortRob,Forest Low,42.658246,-103.525928,New Point--SURVEY
+300,FortRob,Forest,42.689713,-103.46638,
+301,FortRob,Forest,42.690368,-103.470047,
+302,FortRob,Forest,42.682688,-103.4629,
+303,FortRob,Forest,42.686746,-103.45999,New Point--SURVEY
+304,FortRob,Grass,42.675309,-103.451668,
+305,FortRob,Grass,42.68019,-103.446762,
+306,FortRob,Grass,42.677429,-103.4599,
+307,FortRob,Grass,42.679271,-103.484444,New Point--SURVEY
+400,FortRob,Forest ,42.685977,-103.466952,New Point--SURVEY
+401,FortRob,Forest ,42.690429,-103.463635,New Point--SURVEY
+402,FortRob,Forest ,42.689126,-103.469471,New Point--SURVEY
+403,FortRob,Forest ,42.688439,-103.457677,New Point--SURVEY
+404,FortRob,Grass,42.673357,-103.456917,New Point--SURVEY
+405,FortRob,Grass,42.679129,-103.477305,New Point--SURVEY
+406,FortRob,Grass,42.683132,-103.484044,New Point--SURVEY
+407,FortRob,Grass,42.673746,-103.485679,New Point--SURVEY
+408,FortRob,Forest High,42.669496,-103.528751,New Point--SURVEY
+409,FortRob,Forest High,42.667184,-103.529382,New Point--SURVEY
+410,FortRob,Forest High,42.668365,-103.526379,New Point--SURVEY
+411,FortRob,Forest High,42.670314,-103.531406,New Point--SURVEY
+412,FortRob,Forest Low,42.668699,-103.532249,New Point--SURVEY
+413,FortRob,Forest Moderate,42.667896,-103.5307,New Point--SURVEY
+414,FortRob,Forest Moderate,42.651511,-103.548854,New Point--SURVEY
+415,FortRob,Grass Burned,42.650562,-103.546482,New Point--SURVEY
+416,FortRob,Grass Burned,42.664651,-103.540742,New Point--SURVEY
+417,FortRob,Forest Low,42.657807,-103.517826,Removed--DO NOT SURVEY
+418,FortRob,Forest Moderate,42.660337,-103.517194,New Point--SURVEY
+419,FortRob,Forest Moderate,42.657905,-103.512934,New Point--SURVEY
+420,FortRob,Grass Burned,42.663862,-103.542053,New Point--SURVEY
+421,FortRob,Grass Burned,42.671325,-103.522496,New Point--SURVEY
+422,FortRob,Forest Low,42.662812,-103.551602,New Point--SURVEY
+423,FortRob,Forest Low,42.642149,-103.545999,New Point--SURVEY
+424,FortRob,Grass,42.675612,-103.477325,New Point--SURVEY
+417R,FortRob,Forest Low,42.65768,-103.51453,Replaced FL417 --SURVEY

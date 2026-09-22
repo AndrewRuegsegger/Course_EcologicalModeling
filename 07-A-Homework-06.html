@@ -11,7 +11,7 @@
 
 
 
-<title>Homework 1</title>
+<title>Homework 5</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -569,126 +569,97 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Homework 1</h1>
+<h1 class="title toc-ignore">Homework 5</h1>
 
 </div>
 
 
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>Please provide a reproducible .R script that answers all questions
+<p>Please provide a reproducible .Rmd script to address the scenario
 below and produces all of your analysis and plots. Some reminders:</p>
 <ul>
-<li><strong>Reproducible:</strong> This means when I run your .R file,
+<li><strong>Reproducible:</strong> This means when I run your .Rmd file,
 it will run all analyses and create all plots without errors, without me
 having to reset my working directory, and without forcing me to install
 anything on my machine (i.e., use the require(librarian); shelf(your
 packages, lib = tempdir()) approach as in the code block below). This
 also means there should be <em>NO ERRORS</em> when I run it!</li>
-<li><strong>Format:</strong> Answer each question with (commented) text
-and code.</li>
+<li><strong>Format:</strong> In the .Rmd file, arrange and format
+similar to a scientific article. Specifically, I want to see 1) an
+analytical methods section, 2) a results section that includes figures,
+tables, and <em>text interpreting the figures and tables and
+model(s)</em>!, and 3) a brief conclusion (1 - 2 paragraphs) based on
+the results. <strong>NOTE:</strong> You do not need to create an
+introduction, reiterate the data collection methods, or produce a
+literature cited section!</li>
 </ul>
 <div id="background" class="section level3">
 <h3>Background</h3>
-<p>The <a href="https://www.nps.gov/vall/index.htm">Valles Caldera
-National Preserve</a> is part of the National Parks. It’s the caldera of
-an old volcano in the Jemez Mountains of New Mexico, USA. It has some
-pretty interesting socio-ecological history. Part of that history is
-CRAZY overgrazing by sheep and cattle during Spanish and then American
-ownerships. This overgrazing resulted in massive plant biodiversity
-losses in the native grasslands and riparian areas in the Caldera. In
-the early 2000’s, some scientists established a grazing exclosure
-experiment along several of the riparian zones in the Caldera. Their
-goal was to see if excluding cattle or all ungulates (cattle, deer, and
-elk) would increase plant biodiversity in the riparian areas.</p>
-<p>Some details on the data:</p>
-<table>
-<colgroup>
-<col width="20%" />
-<col width="79%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Column Name</strong></th>
-<th><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>year</td>
-<td>years 2002 - 2014</td>
-</tr>
-<tr class="even">
-<td>site</td>
-<td>unique code for each site/treatment</td>
-</tr>
-<tr class="odd">
-<td>treatment</td>
-<td>treatment type. C = control, LE = livestock exclosure, UE = all
-ungulates exclosure</td>
-</tr>
-<tr class="even">
-<td>All other columns</td>
-<td>each column is a plant species, and values are number of
-observations per 300 points within each site.</td>
-</tr>
-</tbody>
-</table>
-<hr />
+<p>For our final homework, you will be creating, running diagnostics,
+doing model selection, and predicting with Bayesian models. Because this
+Bayesian stuff is pretty new territory for us, we will be asking some
+familiar friends for help–the Palmer Penguins. Use our <a
+href="https://livinglandscapes.github.io/Course_EcologicalModeling/02-A-linear-models-and-probability-distributions.html">Review
+of linear models lab</a> for modeling ideas, creating your priors, and
+expectations for model outputs.</p>
+<p>
+<div class="float">
+<img
+src="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/penguins.png"
+width="300" alt="Artwork by @allison_horst" />
+<div class="figcaption">Artwork by <span
+class="citation">@allison_horst</span></div>
+</div>
+<p>
+</div>
+<div id="data-description" class="section level3">
+<h3>Data description</h3>
+<p>Information the “penguins” data can be found here: <a
+href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html"
+class="uri">https://allisonhorst.github.io/palmerpenguins/articles/intro.html</a></p>
 </div>
 </div>
 <div id="your-assignment" class="section level2">
 <h2>Your assignment</h2>
+<p>Using the ‘brms’ package and the Palmer Penguins dataset, create
+hierarchical Bayesian models to explain penguin body mass. These models
+should attempt to explain body mass for all species and sexes and
+islands in the dataset (i.e., don’t create separate models for the
+sexes, species, or islands). To complete this assignment, will need to
+do five main things:</p>
 <ol style="list-style-type: decimal">
-<li><p>The <code>site</code> metadata column has too much information:
-we need to split the information up into separate columns of it out
-while retaining the unique identifier information. Revise the
-<code>site</code> column to be the first three characters in the current
-<code>site</code> column (e.g., the new site value for RS1C1 should be
-“RS1”), and create a new column named <code>plotCode</code> with the
-final 1 - 2 characters in the current <code>site</code> column (e.g.,
-the plotCode value for RS1C1 should be “C1”). To be clear: when you’re
-finished with this problem, the metadata columns should be:
-<code>year</code>, <code>site</code>, <code>plotCode</code>, and
-<code>treatment</code>.</p></li>
-<li><p>Create a <code>Richness_total</code> column by calculating total
-species richness for each row, and create an
-<code>Diversity_InvSimp</code> column by calculating Inverse Simpson’s
-Diversity Index for each row. Hint: for the Inverse Simpson’s, check out
-the <code>vegan::diversity</code> function. Also, total species richness
-is the total number of species per row.</p></li>
-</ol>
-<!-- 3) Use the wetland obligate species list (see code block below) to create a column of *wetland obligate*  species richness. That is, the number of wetland obligate species per row. -->
-<ol start="3" style="list-style-type: decimal">
-<li><p>Using boxplots and histograms, check for outliers in the total
-species richness and species diversity columns.</p></li>
-<li><p>Check for balance in the data across sites, years, and
-treatments. Hint: use the <code>table</code> function. Using commented
-text, say if data is balanced and if not, how so?</p></li>
-<li><p>Create plot(s) to check for relationships between response
-variables (richness, diversity) and predictor variables (year, site,
-treatment). Using commented text, describe potential
-relationships.</p></li>
-<li><p>Should we worry about collinearity in our predictor variables?
-Why or why not?</p></li>
-<li><p>Create plot(s) to check for a potential interaction between
-<code>year</code> and <code>treatment</code>. Using commented text, tell
-me why we should or shouldn’t consider this interaction?</p></li>
+<li>Create <strong>three</strong> candidate models to explain penguin
+body mass. IMPORTANT: you will need to specify priors for each
+population-level effect (fixed effect) and provide reasoning for your
+choices.</li>
+<li>Use a Bayesian model selection technique (e.g., LOO or WAIC) to
+compare models and identify the “top” model.</li>
+<li>Assess the top model’s fit (e.g., Rhat, posterior predictive check,
+traceplots).</li>
+<li>Use the top model to make posterior predictions. Specifically, I
+want to see marginal effects plot(s) that include any hierarchical
+levels (i.e., random effects).</li>
+<li>Write out your hypotheses (your candidate models–but with words).
+Compile all the modeling steps and outputs into Methods and Results
+sections, and then interpret the results in a 1 - 2 paragraph
+Conclusions section. IMPORTANT: the Methods should include reasoning for
+your probability distribution choices, choices on priors, etc.</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, sf, vegan, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Repo URL </span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># Load riparian vegetation monitoring dataset:</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>dat <span class="ot">&lt;-</span> </span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;data/rip.dat.02-14.csv&quot;</span>))</span></code></pre></div>
-<!-- # # Wetland obligate species of interest -->
-<!-- # wetObl <-  -->
-<!-- #   c("ALAE", "CAAQ",  "CAPEL",    "CASIM",    "CAUT", "CIMA", "ELAC", "ELPAL",     -->
-<!-- #     "GLGR",  "GLST", "LEMI", "MIGL", "POAN", "PONA", "RAMA", "SPAN", "TOPA") -->
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, </span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      palmerpenguins, </span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      here,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      brms,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Read in a data file</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&#39;palmerpenguins&#39;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 
 

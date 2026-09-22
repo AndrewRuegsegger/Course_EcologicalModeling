@@ -64,160 +64,294 @@ data(package = 'palmerpenguins',
 
 ```
 
-<!-- Take a look at the data. The head() function is good for this. On your own, try the str() function on the entire data.frame, the range() function on individual *numeric* columns, and the unique() function on *character* columns. -->
+Take a look at the data. The head() function is good for this. On your own, try the str() function on the entire data.frame, the range() function on individual *numeric* columns, and the unique() function on *character* columns.
 
-<!-- Note: there are two datasets included in the "palmerpenguins" package. We will use the cleaned 'penguins' dataset. -->
+Note: there are two datasets included in the "palmerpenguins" package. We will use the cleaned 'penguins' dataset.
 
-<!-- ```{r include = TRUE, eval = TRUE} -->
-<!-- head(penguins) -->
-<!-- ``` -->
+```{r include = TRUE, eval = TRUE}
+head(penguins)
+```
 
-<!-- Try out some data exploration techniques that we've learned. Here, I’ve plotted histograms of body mass by species by island. **On your own,  look for outliers, make scatterplots, and whatever else you want to try.** -->
+Try out some data exploration techniques that we've learned. Here, I’ve plotted histograms of body mass by species by island. **On your own,  look for outliers, make scatterplots, and whatever else you want to try.**
 
-<!-- ```{r include = TRUE, eval = TRUE, echo = FALSE, message = FALSE} -->
+```{r include = TRUE, eval = TRUE, echo = FALSE, message = FALSE}
 
-<!-- ggplot(penguins, -->
-<!--        aes(x = body_mass_g, fill = species)) + -->
-<!--   geom_histogram(alpha = 0.4, position = "identity") + -->
-<!--   scale_fill_viridis_d() + # there are great pre-made color palettes in ggplot2. The viridis palette is color blind-friendly. -->
-<!--   facet_wrap(~ island) + -->
-<!--   theme_bw() + -->
-<!--   theme(axis.text.x = element_text(size = 7, angle = 320)) + -->
-<!--   xlab("Body Mass (g)") + -->
-<!--   ylab("Frequency") -->
+ggplot(penguins,
+       aes(x = body_mass_g, fill = species)) +
+  geom_histogram(alpha = 0.4, position = "identity") +
+  scale_fill_viridis_d() + # there are great pre-made color palettes in ggplot2. The viridis palette is color blind-friendly.
+  facet_wrap(~ island) +
+  theme_bw() +
+  theme(axis.text.x = element_text(size = 7, angle = 320)) +
+  xlab("Body Mass (g)") +
+  ylab("Frequency")
 
-<!-- ``` -->
+```
 
-<!-- ## Let's try a model! -->
+## Let's try a model!
 
-<!-- A pretty reasonable hypothesis to test is *"In penguins, males will have greater body mass than females, and body mass is also allometrically related to bill length and depth."* We could also add that *"body mass will vary across species."* -->
+A pretty reasonable hypothesis to test is *"In penguins, males will have greater body mass than females, and body mass is also allometrically related to bill length and depth."* We could also add that *"body mass will vary across species."*
 
-<!-- To test this hypothesis, let's create a 'global' model containing all the variables that our hypotheses predict will influence body mass: -->
+To test this hypothesis, let's create a 'global' model containing all the variables that our hypotheses predict will influence body mass:
 
-<!-- ```{r include = TRUE, eval = TRUE} -->
+```{r include = TRUE, eval = TRUE}
 
-<!-- # fit the global linear regression -->
-<!-- fit_global <- -->
-<!--   lm(body_mass_g ~ sex + bill_length_mm * bill_depth_mm + species, -->
-<!--      data = penguins) -->
+# fit the global linear regression
+fit_global <-
+  lm(body_mass_g ~ sex + bill_length_mm * bill_depth_mm + species,
+     data = penguins)
 
-<!-- # Check out the global model's coefficients, R^2 values, and p-values. -->
-<!-- summary(fit_global) -->
+# Check out the global model's coefficients, R^2 values, and p-values.
+summary(fit_global)
 
-<!-- ``` -->
+```
 
-<!-- We did it! Go line-by-line through the summary table and--in words--communicate if each hypothesis is supported and why. -->
+We did it! Go line-by-line through the summary table and--in words--communicate if each hypothesis is supported and why.
 
-<!-- Additionally, you may be asking a common question for folks using categorical variables in regression. In this case, it's probably "why are there no coefficient estimates for sex:female or species:Adelie?" On your own, search Google and/or StackOverflow for an answer. -->
+Additionally, you may be asking a common question for folks using categorical variables in regression. In this case, it's probably "why are there no coefficient estimates for sex:female or species:Adelie?" On your own, search Google and/or StackOverflow for an answer.
 
-<!-- ### Collinearity? -->
+### Collinearity?
 
-<!-- But wait--we forgot a critical step: checking for collinearity in the predictor variables! Now that we have a fitted model, we can use VIFs to assess collinearity: -->
+But wait--we forgot a critical step: checking for collinearity in the predictor variables! Now that we have a fitted model, we can use VIFs to assess collinearity:
 
-<!-- ```{r include = TRUE, eval = TRUE} -->
+```{r include = TRUE, eval = TRUE}
 
-<!-- # Use performance::check_collinearity to calculate VIFs: -->
-<!-- check_collinearity(fit_global) -->
+# Use performance::check_collinearity to calculate VIFs:
+check_collinearity(fit_global)
 
-<!-- ``` -->
+```
 
-<!-- Uh oh. Looks like we have >>> 10 VIFs for all predictor variables except sex! Are our species and allometric hypotheses scuppered?! -->
+Uh oh. Looks like we have >>> 10 VIFs for all predictor variables except sex! Are our species and allometric hypotheses scuppered?!
 
-<!-- Before we get too morose, let's try a few things to double-check these VIFs are giving us accurate information. First, it stands to reason that if we have interaction terms such as 'x', 'y' and 'xy,' then 'x' and 'y' will be correlated with their product 'xy,' right? One way to demonstrate this is by standardizing (i.e., centering or scaling) the offending numeric predictor variables and recalculating VIFs. This should reduce the collinearity at least for the interaction terms. Let's try it: -->
+Before we get too morose, let's try a few things to double-check these VIFs are giving us accurate information. First, it stands to reason that if we have interaction terms such as 'x', 'y' and 'xy,' then 'x' and 'y' will be correlated with their product 'xy,' right? One way to demonstrate this is by standardizing (i.e., centering or scaling) the offending numeric predictor variables and recalculating VIFs. This should reduce the collinearity at least for the interaction terms. Let's try it:
 
-<!-- ```{r include = TRUE, eval = TRUE} -->
+```{r include = TRUE, eval = TRUE}
 
-<!-- # Create a new data.frame with -->
-<!-- penguins <- -->
-<!--   penguins %>% -->
-<!--   mutate(across(c(bill_length_mm, bill_depth_mm), -->
-<!--                 .fns = function(X) as.numeric(scale(X)), -->
-<!--                 .names = "{.col}_scaled")) -->
+# Create a new data.frame with
+penguins <-
+  penguins %>%
+  mutate(across(c(bill_length_mm, bill_depth_mm),
+                .fns = function(X) as.numeric(scale(X)),
+                .names = "{.col}_scaled"))
 
-<!-- # fit the global linear regression -->
-<!-- fit_global_scaled <- -->
-<!--   lm(body_mass_g ~ sex + bill_length_mm_scaled * bill_depth_mm_scaled + species, -->
-<!--      data = penguins) -->
+# fit the global linear regression
+fit_global_scaled <-
+  lm(body_mass_g ~ sex + bill_length_mm_scaled * bill_depth_mm_scaled + species,
+     data = penguins)
 
-<!-- # Use performance::check_collinearity to calculate VIFs: -->
-<!-- check_collinearity(fit_global_scaled) -->
+# Use performance::check_collinearity to calculate VIFs:
+check_collinearity(fit_global_scaled)
 
-<!-- ``` -->
+```
 
-<!-- Okay, so far so good. The second thing to check is whether coefficient, p-values, and $R^2$ values have changed between the un-standardized global model and the standardized global model. Run this block on your own and see what happens: -->
+Okay, so far so good. The second thing to check is whether coefficient, p-values, and $R^2$ values have changed between the un-standardized global model and the standardized global model. Run this block on your own and see what happens:
 
-<!-- ```{r include = TRUE, eval = FALSE} -->
+```{r include = TRUE, eval = FALSE}
 
-<!-- # Compare coefficients and p-values. -->
-<!-- summary(fit_global)$coefficients # Note: summary() creates a list that you can index for specific model information. -->
-<!-- summary(fit_global_scaled)$coefficients -->
+# Compare coefficients and p-values.
+summary(fit_global)$coefficients # Note: summary() creates a list that you can index for specific model information.
+summary(fit_global_scaled)$coefficients
 
-<!-- # Compare R^2 values -->
-<!-- summary(fit_global)$adj.r.squared -->
-<!-- summary(fit_global_scaled)$adj.r.squared -->
+# Compare R^2 values
+summary(fit_global)$adj.r.squared
+summary(fit_global_scaled)$adj.r.squared
 
-<!-- ``` -->
+```
 
-<!-- Great! Both our expectations for the interaction terms were confirmed, and we don't need to worry about high VIFs there. -->
+Great! Both our expectations for the interaction terms were confirmed, and we don't need to worry about high VIFs there.
 
-<!-- However, we still need to deal with the > 10 VIF for species, which does appear to be accurate. Fortunately, the answer is simple: drop the species variable from the model and recheck for collinearity. On your own, consider model outputs from the code chunk below and compare these to previous model outputs: -->
+However, we still need to deal with the > 10 VIF for species, which does appear to be accurate. Fortunately, the answer is simple: drop the species variable from the model and recheck for collinearity. On your own, consider model outputs from the code chunk below and compare these to previous model outputs:
 
-<!-- ```{r include = TRUE, eval = TRUE} -->
+```{r include = TRUE, eval = TRUE}
 
-<!-- # fit the global linear regression -->
-<!-- fit_global_scaled_noSpecies <- -->
-<!--   lm(body_mass_g ~ sex + bill_length_mm_scaled * bill_depth_mm_scaled, -->
-<!--      data = penguins) -->
+# fit the global linear regression
+fit_global_scaled_noSpecies <-
+  lm(body_mass_g ~ sex + bill_length_mm_scaled * bill_depth_mm_scaled,
+     data = penguins)
 
-<!-- # Check collinearity -->
-<!-- check_collinearity(fit_global_scaled_noSpecies) -->
+# Check collinearity
+check_collinearity(fit_global_scaled_noSpecies)
 
-<!-- # Check out the global model's coefficients, R^2 values, and p-values. -->
-<!-- summary(fit_global_scaled_noSpecies) -->
+# Check out the global model's coefficients, R^2 values, and p-values.
+summary(fit_global_scaled_noSpecies)
 
-<!-- ``` -->
+```
 
-<!-- ### Model diagnostics -->
+### Model diagnostics
 
-<!-- As a last step, we need to make sure our final model meets all required assumptions for a linear regression: -->
+As a last step, we need to make sure our final model meets all required assumptions for a linear regression:
 
-<!-- - Linear relationship between response and predictor variables -->
-<!-- - Reasonable levels of collinearity (e.g., VIF < 3 or 5 or 10) -->
-<!-- - Homogeneity of variances between groups (i.e., homoscedasticity [i.e., NOT heteroscedasticity]) -->
-<!-- - Errors are normally distributed -->
-<!-- - Independent sampling (i.e., no autocorrelation or pseudoreplication) -->
+- Linear relationship between response and predictor variables
+- Reasonable levels of collinearity (e.g., VIF < 3 or 5 or 10)
+- Homogeneity of variances between groups (i.e., homoscedasticity [i.e., NOT heteroscedasticity])
+- Errors are normally distributed
+- Independent sampling (i.e., no autocorrelation or pseudoreplication)
 
-<!-- We've already dealt with collinearity, we know there is a linear relationship between response and predictor variables. On your own, go back through our previous work to determine where and how we checked for collinearity and the linear relationship--and what the outcomes were. -->
+We've already dealt with collinearity, we know there is a linear relationship between response and predictor variables. On your own, go back through our previous work to determine where and how we checked for collinearity and the linear relationship--and what the outcomes were.
 
-<!-- We will wait until our Autocorrelation topic to check for independence, but we let's definitely check for homogeneity of variances and normal error distributions: -->
+We will wait until our Autocorrelation topic to check for independence, but we let's definitely check for homogeneity of variances and normal error distributions:
 
-<!-- ```{r include = TRUE, eval = TRUE} -->
+```{r include = TRUE, eval = TRUE}
 
-<!-- # Check for heteroscedasticity via the fancy ggplot2 way of plotting fitted values vs. residuals: -->
-<!-- ggplot() + -->
-<!--   geom_point(aes(x = fit_global_scaled_noSpecies$fitted.values, -->
-<!--                  y = fit_global_scaled_noSpecies$residuals)) + -->
-<!--   geom_hline(data = data.frame(yintercept = 0), -->
-<!--              aes(yintercept = 0), -->
-<!--              linetype = 2, -->
-<!--              color = "red") + -->
-<!--   xlab("Fitted values") + -->
-<!--   ylab("Residuals") -->
+# Check for heteroscedasticity via the fancy ggplot2 way of plotting fitted values vs. residuals:
+ggplot() +
+  geom_point(aes(x = fit_global_scaled_noSpecies$fitted.values,
+                 y = fit_global_scaled_noSpecies$residuals)) +
+  geom_hline(data = data.frame(yintercept = 0),
+             aes(yintercept = 0),
+             linetype = 2,
+             color = "red") +
+  xlab("Fitted values") +
+  ylab("Residuals")
 
-<!-- # Built-in model diagnostics for checking for heteroscedasticity, errors are normally distributed, etc. -->
-<!-- par(mfrow = c(2, 2)) # To make all plots be panels of a single figure. -->
-<!-- plot(fit_global_scaled_noSpecies) -->
+# Built-in model diagnostics for checking for heteroscedasticity, errors are normally distributed, etc.
+par(mfrow = c(2, 2)) # To make all plots be panels of a single figure.
+plot(fit_global_scaled_noSpecies)
 
-<!-- ``` -->
+```
 
-<!-- So our final model contains sex and an interaction of bill length and depth to explain body mass in penguins. We've successfully created our first linear model! -->
+So our final model contains sex and an interaction of bill length and depth to explain body mass in penguins. We've successfully created our first linear model!
 
-<!-- ## Discussion Questions -->
+### Visualizations and Predictions
 
-<!-- 1. If we were writing a manuscript based on our final model (and assuming we designed the study with the hypotheses we generated), how would we interpret the fact that we dropped the 'species' predictor variable from the final model? -->
+One last thing: we should make some visualizations of our model outputs.
 
-<!-- 2. Interpreting interaction terms simply is tricky from the coefficients. How could we create a plot to help us? HINT: 1) Use expand.grid() to create a new data.frame based on the range of values of each predictor variable, 2) then use  predict(), 3) then plot the predicted relationships. -->
+#### Dotplots
 
-<!-- 3. Graphically, how can we characterize uncertainty in our model? HINT: look at the predict() "se.fit" argument. -->
+We don't want stop at the model summary table: we need to visualize the model
+outputs. This is critical for publications, reports, science communication,
+and just helping us understand the model. We also need to be honest about the
+uncertainty (variation) in our estimates.
 
-<!-- 4. Using words only, interpret our final model. -->
+First of all, let's make some dot-and-whisker plots to display our coefficient
+estimates and uncertainty (i.e., confidence intervals). We'll need to extract
+the coefficient estimates and calculate confidence intervals.
+
+There are multiple ways to extract coefficient estimates
+
+```{r include = TRUE, eval = TRUE}
+
+coef(fit_global_scaled_noSpecies) # Just coefficient estimates
+summary(fit_global_scaled_noSpecies)$coefficients # whole model table. It's a matrix, so you can index!
+summary(fit_global_scaled_noSpecies)$coefficients[ , 1] # First column is just coefficient estimates.
+summary(fit_global_scaled_noSpecies)$coefficients[ , 2] # Second column is standard error estimates.
+
+```
+
+For all models that use the normal (Gaussian) distribution and the "identity"
+link function, confidence intervals are very easy to estimate:
+ 
+ - Step 1: Find a t-score table and look for your desired level of confidence.
+ - Step 2: Multiply the t-score by the Standard Error estimate.
+ - Step 3: Subtract/Add the product from the coefficient estimate for the upper/
+           lower confidence limit.
+
+Here's a by-hand example for 95% confidence. NOTE: 95% confidence means the interval ranges from 2.5% - 97.5%. Why?
+
+```{r include = TRUE, eval = TRUE}
+
+# Make a data.frame with the coefficient estimates and confidence intervals
+dotplot_df <- 
+  data.frame(CI_0.975 = coef(fit_global_scaled_noSpecies) + ((summary(fit_global_scaled_noSpecies)$coefficients[, 2]) * 1.96),
+             CI_0.025 = coef(fit_global_scaled_noSpecies) - ((summary(fit_global_scaled_noSpecies)$coefficients[, 2]) * 1.96),
+             CoefEsts = coef(fit_global_scaled_noSpecies),
+             CoefNames = c("Intercept", "Sex-Male", "Bill Length", "Bill Depth", 
+                           "Bill Length:Bill Depth")
+  )
+
+# Make a dotplot!
+ggplot(dotplot_df %>%
+         # Removing intercept because we usually don't include them in dotplots
+         filter(CoefNames != "Intercept"),
+       aes(x = CoefNames,
+           y = CoefEsts,
+           ymin = CI_0.025,
+           ymax = CI_0.975)) + 
+  geom_point(size = 2) + 
+  geom_errorbar(width = 0.1) + 
+  geom_hline(data = data.frame(yintercept = 0),
+             mapping = aes(yintercept = yintercept),
+             linetype = 2,
+             color = "darkred") +
+  theme_bw() + 
+  ylab("Coefficient Estimate") + 
+  xlab("Coefficient Names")
+
+```
+
+#### Effect plots
+
+Dotplots are fantastic, but showing trend lines can be even more powerful.
+This can get a little tricky when there are multiple covariates--especially
+when there are interactions. It can also be hard to interpret an interactive
+effect just from dotplots. Let's create effects plots with the
+interactive effects.
+
+Here's the general workflow: 
+
+ - Step 1: Create a "new" data.frame with ranges of predictor variable values on
+         which to make predictions. NOTE: I strongly suggest you constrain the 
+         ranges to the range of the data to avoid the perils of extrapolation.
+ - Step 2: Use the model fit to predict response variable estimates and standard
+         errors at the predictor variable values in the new data.frame.
+ - Step 3: Calculate confidence intervals.
+ - Step 4: Plot the estimated responses + confidence intervals
+
+Let's start by using the handy "expand.grid" function to create the new
+data.frame. Where there are empty comments below, annotate with what the code
+is doing:
+
+```{r include = TRUE, eval = TRUE}
+
+# Create a data.frame for predictions
+nd <- 
+  #
+  with(penguins,
+       #
+       expand.grid(
+         # 
+         sex = c("male", "female"),
+         # 
+         bill_length_mm = seq(min(bill_length_mm, na.rm = TRUE), 
+                              max(bill_length_mm, na.rm = TRUE),
+                              #
+                              length.out = 50),
+         #
+         bill_depth_mm = c(min(bill_depth_mm, na.rm = TRUE), 
+                           median(bill_depth_mm, na.rm = TRUE),
+                           max(bill_depth_mm, na.rm = TRUE)))
+  )
+
+# Add scaled covariates. NOTE: You have to use the ORIGINAL mean and SD from the ORIGINAL dataset.
+nd_new <- 
+  nd %>%
+  mutate(bill_length_mm_scaled = as.numeric((bill_length_mm - mean(penguins$bill_length_mm, na.rm = T)) /                     sd(penguins$bill_length_mm, na.rm = T)),
+         bill_depth_mm_scaled = as.numeric((bill_depth_mm - mean(penguins$bill_depth_mm, na.rm = T)) /                       sd(penguins$bill_depth_mm, na.rm = T)))
+
+# Predict and calculate confidence intervals
+pred_df <- 
+  data.frame(nd_new,
+             as.data.frame(predict(fit_global_scaled_noSpecies, nd_new, se.fit = TRUE))) %>%
+  mutate(CI_0.975 = fit + (se.fit * 1.96),
+         CI_0.025 = fit - (se.fit * 1.96))
+
+# Plot the effects!
+ggplot(pred_df, 
+       aes(x = bill_length_mm,
+           y = fit,
+           color = as.factor(bill_depth_mm), 
+           fill = as.factor(bill_depth_mm),
+           group = as.factor(bill_depth_mm),
+           ymin = CI_0.025,
+           ymax = CI_0.975)) + 
+  facet_wrap(~ sex) + 
+  geom_ribbon(alpha = 0.3,
+              color = NA) + 
+  geom_line() + 
+  scale_colour_viridis_d(name = "Bill Depth") + 
+  scale_fill_viridis_d(name = "Bill Depth") + 
+  theme_bw() + 
+  ylab("Penguin Body Mass (g)")
+
+```
+

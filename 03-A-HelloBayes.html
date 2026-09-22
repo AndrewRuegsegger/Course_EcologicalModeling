@@ -493,10 +493,25 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="03-A-model-selection.html">Lab</a>
+      <a href="03-A-model-selection.html">Lab: Intro to Model Selection</a>
     </li>
     <li>
-      <a href="03-B-Homework-02.html">Homework 2</a>
+      <a href="03-B-bayes-modsel.html">Lab: Bayesian Model Selection</a>
+    </li>
+    <li>
+      <a href="03-C-Homework-03.html">Homework 3</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis A - Z
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="05-A-Analysis-Lab.html">Lab: Analysis A - Z</a>
     </li>
   </ul>
 </li>
@@ -528,9 +543,6 @@ div.tocify {
     <li>
       <a href="05-C-Confidence-Intervals-Mixed-Models.html">Lab: Confidence Intervals for Mixed Models</a>
     </li>
-    <li>
-      <a href="05-C-Homework-03.html">Homework 3</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -542,9 +554,6 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="06-A-Hierarchical-Generalized-Additive-Models.html">Lab: HGAMs</a>
-    </li>
-    <li>
-      <a href="06-B-Homework-04.html">Homework 4</a>
     </li>
   </ul>
 </li>
@@ -646,53 +655,58 @@ width="400" alt="Bobwhite Quail by Larus" />
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">require</span>(librarian)</span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, here, sf, brms, maps, terra, tidybayes,</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># Set path</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/&quot;</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># Set seed</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2252</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>dat_list <span class="ot">&lt;-</span> </span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">RouteDictionary =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteDictionary.csv&quot;</span>)),</span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>       <span class="at">RouteUTMs =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteUTMs.csv&quot;</span>)),</span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>       <span class="at">RouteWhistleData =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteWhistleData.csv&quot;</span>)))</span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#=============================================================================</span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="do">## Tidying data</span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co"># Tidy whistle data</span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>whistle <span class="ot">&lt;-</span> </span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  dat_list<span class="sc">$</span>RouteWhistleData <span class="sc">%&gt;%</span></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Cass<span class="sc">:</span>Lancaster_YH,</span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;Route.Name&quot;</span>,</span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;WhistleCount&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Route.Name =</span> <span class="fu">case_when</span>(Route.Name <span class="sc">==</span> <span class="st">&quot;Cass&quot;</span> <span class="sc">~</span> <span class="st">&quot;Cass North&quot;</span>,</span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;GageN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Gage North&quot;</span>,</span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;GageS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Gage South&quot;</span>,</span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Jeffersn&quot;</span> <span class="sc">~</span> <span class="st">&quot;Jefferson&quot;</span>,</span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;JohnsonN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Johnson North&quot;</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;JohnsonS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Johnson South&quot;</span>,</span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.East&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster East&quot;</span>,</span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.North&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster North&quot;</span>,</span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.Branched.Oak&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster-Branched Oak&quot;</span>,</span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;OtoeN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Otoe North&quot;</span>,</span>
-<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;OtoeS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Otoe South&quot;</span>,</span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Richardn&quot;</span> <span class="sc">~</span> <span class="st">&quot;Richardson&quot;</span>,</span>
-<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a>                                <span class="at">.default =</span> Route.Name)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a>  <span class="fu">left_join</span>(dat_list<span class="sc">$</span>RouteDictionary <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Route.Name =</span> <span class="st">`</span><span class="at">Route Name</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Route.Number =</span> <span class="st">`</span><span class="at">Route Number</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a>  <span class="fu">filter</span>(Route.Name <span class="sc">!=</span> <span class="st">&quot;Lancaster_YH&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a>  <span class="fu">left_join</span>(dat_list<span class="sc">$</span>RouteUTMs <span class="sc">%&gt;%</span></span>
-<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">Route.Number =</span> Route) <span class="sc">%&gt;%</span></span>
-<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a>              <span class="fu">group_by</span>(Route.Number) <span class="sc">%&gt;%</span></span>
-<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">YearNum =</span> Year <span class="sc">-</span> <span class="dv">1964</span>,</span>
-<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a>         <span class="at">YearNum2 =</span> (Year <span class="sc">-</span> <span class="dv">1964</span>)<span class="sc">^</span><span class="dv">2</span>,</span>
-<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a>         <span class="at">Easting_scaled =</span> <span class="fu">scale</span>(UTMYE),</span>
-<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a>         <span class="at">Northing_scaled =</span> <span class="fu">scale</span>(UTMXN))</span></code></pre></div>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span></code></pre></div>
+<pre><code>## package &#39;svUnit&#39; successfully unpacked and MD5 sums checked
+## package &#39;arrayhelpers&#39; successfully unpacked and MD5 sums checked
+## package &#39;tidybayes&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\cr065\AppData\Local\Temp\RtmpsBjGwK\downloaded_packages</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Set path</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Set seed</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2252</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>dat_list <span class="ot">&lt;-</span> </span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">RouteDictionary =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteDictionary.csv&quot;</span>)),</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>       <span class="at">RouteUTMs =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteUTMs.csv&quot;</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>       <span class="at">RouteWhistleData =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteWhistleData.csv&quot;</span>)))</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#=============================================================================</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="do">## Tidying data</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># Tidy whistle data</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>whistle <span class="ot">&lt;-</span> </span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>  dat_list<span class="sc">$</span>RouteWhistleData <span class="sc">%&gt;%</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Cass<span class="sc">:</span>Lancaster_YH,</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;Route.Name&quot;</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;WhistleCount&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Route.Name =</span> <span class="fu">case_when</span>(Route.Name <span class="sc">==</span> <span class="st">&quot;Cass&quot;</span> <span class="sc">~</span> <span class="st">&quot;Cass North&quot;</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;GageN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Gage North&quot;</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;GageS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Gage South&quot;</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Jeffersn&quot;</span> <span class="sc">~</span> <span class="st">&quot;Jefferson&quot;</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;JohnsonN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Johnson North&quot;</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;JohnsonS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Johnson South&quot;</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.East&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster East&quot;</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.North&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster North&quot;</span>,</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.Branched.Oak&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster-Branched Oak&quot;</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;OtoeN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Otoe North&quot;</span>,</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;OtoeS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Otoe South&quot;</span>,</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Richardn&quot;</span> <span class="sc">~</span> <span class="st">&quot;Richardson&quot;</span>,</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>                                <span class="at">.default =</span> Route.Name)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>  <span class="fu">left_join</span>(dat_list<span class="sc">$</span>RouteDictionary <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Route.Name =</span> <span class="st">`</span><span class="at">Route Name</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Route.Number =</span> <span class="st">`</span><span class="at">Route Number</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a>  <span class="fu">filter</span>(Route.Name <span class="sc">!=</span> <span class="st">&quot;Lancaster_YH&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>  <span class="fu">left_join</span>(dat_list<span class="sc">$</span>RouteUTMs <span class="sc">%&gt;%</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">Route.Number =</span> Route) <span class="sc">%&gt;%</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>              <span class="fu">group_by</span>(Route.Number) <span class="sc">%&gt;%</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">YearNum =</span> Year <span class="sc">-</span> <span class="dv">1964</span>,</span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a>         <span class="at">YearNum2 =</span> (Year <span class="sc">-</span> <span class="dv">1964</span>)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a>         <span class="at">Easting_scaled =</span> <span class="fu">scale</span>(UTMYE),</span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>         <span class="at">Northing_scaled =</span> <span class="fu">scale</span>(UTMXN))</span></code></pre></div>
 <!-- ## Data Exploration -->
 <!-- **On your own, familiarize yourself with the data.** Below, we have an example: -->
 <!-- ```{r, eval = TRUE, message = FALSE, include = TRUE, echo = TRUE} -->

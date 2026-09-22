@@ -1,5 +1,5 @@
 ---
-title: "Homework 2"
+title: "Homework 3"
 output: html_document
 ---
 
@@ -27,9 +27,9 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ## Overview
 
-Please provide a reproducible .Rmd script that answers all questions below and produces all of your analysis and plots. Some reminders:
+Please provide a reproducible .R script that answers all questions below and produces all of your analysis and plots. Some reminders:
 
-- **Reproducible:** This means when I run your .Rmd file, it will run all analyses and create all plots without errors, without me having to reset my working directory, and without forcing me to install anything on my machine (i.e., use the require(librarian); shelf(your packages, lib = tempdir()) approach as in the code block below). This also means there should be *NO ERRORS* when I run it!
+- **Reproducible:** This means when I run your script, it will run all analyses and create all plots without errors, without me having to reset my working directory, and without forcing me to install anything on my machine (i.e., use the require(librarian); shelf(your packages, lib = tempdir()) approach as in the code block below). This also means there should be *NO ERRORS* when I run it!
 - **Format:** Answer each question with text and code, plus figures/tables where appropriate.
 
 ### Background
@@ -101,12 +101,11 @@ mlrland <-
 
 ## Homework questions
 
-1.	Describe a set of 7 - 10 hypotheses (i.e., models comprised of combinations of covariates) that will allow you to compare patch vs. landscape explanations for variation in patch use of woodland birds, and estimate the best scale for landscape effects. 
-2.	Fit your selected models to the data using binomial generalized linear models (GLMs) for at least two bird species. I recommend using grcu (Grey Currawong), silv (Silvereye), or yfhe (Yellow faced Honeyeater) – at first glance they appear to have something interesting to say with this limited dataset.
-3.	Use AICc – based model selection to compare your approximating models with each other, and draw conclusions about the relative importance of patch vs. landscape effects for the species you considered.
-4.	Calculate a model averaged estimate for one or more of the biologically important parameters in your models. For example, the effect of patch area (PA) is directly relevant to estimating the effects of proposed land use changes (e.g. vegetation clearance) on bird species. 
-5. Create model ranking tables (AICc tables) and create "marginal effects" plots for the model-averaged parameters from question #4. Marginal effects tells us how the response variable changes when a specific predictor variable changes. Other covariates held constant (e.g., at zero, at their means, etc.). There are multiple ways to generate marginal effects plots (e.g., ggeffects R package, use the base R package 'predict' function), but make sure the confidence interval calculations are correct (Hint: you may want to revisit Question #6 from Homework #1 for this).
-6. Interpret the results of your model selection and model averaging. 
+1.	Describe a set of 6 hypotheses (i.e., models comprised of combinations of covariates) that will allow you to compare patch vs. landscape explanations for variation in patch use of woodland birds, and estimate the best scale for landscape effects. *HINT: You likely need to do some work prior to creating your candidate models!*
+2.	Fit your selected models to the data using **Bayesian** binomial generalized linear models (GLMs) for "grcu" (Grey Currawong) and "silv" (Silvereye). Make sure you achieve convergence on all models. *NOTE: You will fit the same candidate models to both species.*
+3.	Use Bayesian information criteria (e.g., WAIC, LOO-IC) and create model ranking tables.
+4.  Create "marginal effects" plots for the top-ranked model parameter(s) with 95% credible intervals. Marginal effects tells us how the response variable changes when a specific predictor variable changes. Other covariates are held constant (e.g., at their mean values). *Try combining all plots into a single plot object using the `cowplot` package or similar.*
+5. Interpret the results of your model selection and top model(s), drawing conclusions about the relative importance of patch vs. landscape effects for the species you considered. 
 
 
 
